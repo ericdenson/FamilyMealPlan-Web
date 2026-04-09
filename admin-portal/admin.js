@@ -1120,8 +1120,8 @@ const adminApp = {
 
             tr.innerHTML = `
                 <td>
-                    <div style="display:flex; align-items:center; gap:12px;">
-                        <div style="width:36px; height:36px; border-radius:50%; background:var(--accent-color); color:white; display:flex; align-items:center; justify-content:center; font-weight:700;">${initials}</div>
+                    <div style="display:flex; align-items:center; gap:8px;">
+                        <div style="width:24px; height:24px; border-radius:50%; background:var(--accent-color); color:white; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:0.7rem;">${initials}</div>
                         <div style="display:flex; flex-direction:column;">
                             <span style="font-weight:600; color:var(--text-main); font-size:0.85rem;">${user.first_name}</span>
                             <span style="font-size:0.75rem; color:var(--text-muted);">${user.email}</span>
