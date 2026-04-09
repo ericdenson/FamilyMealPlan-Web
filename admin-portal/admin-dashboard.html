@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Family Meal Plan - Admin Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabaseClient.js"></script>
+
+    <style>
+        :root {
+            --sidebar-bg: #1e1e2d;
+            --sidebar-hover: #2a2a3f;
+            --sidebar-text: #a0a0b2;
+            --sidebar-active: #ffffff;
+            --accent-color: #9CB4A0;
+            --bg-color: #f4f6f8;
+            --surface: #ffffff;
+            --text-main: #333333;
+            --text-muted: #888888;
+            --border-light: #e1e4e8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 260px;
+            background-color: var(--sidebar-bg);
+            display: flex;
+            flex-direction: column;
+            color: white;
+            transition: all 0.3s;
+        }
+
+        .brand {
+            padding: 24px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            margin-bottom: 16px;
+        }
+
+        .brand i {
+            color: var(--accent-color);
+        }
+
+        .nav-item {
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            color: var(--sidebar-text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: background 0.2s, color 0.2s;
+            cursor: pointer;
+        }
+
+        .nav-item:hover {
+            background-color: var(--sidebar-hover);
+            color: var(--sidebar-active);
+        }
+
+        .nav-item.active {
+            background-color: var(--sidebar-hover);
+            color: var(--sidebar-active);
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .nav-item i {
+            font-size: 1.1rem;
+            width: 20px;
+            text-align: center;
+        }
+
+        .sidebar-footer {
+            margin-top: auto;
+            padding: 24px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.85rem;
+            color: var(--sidebar-text);
+        }
+
+        /* Main Content Area */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        .topbar {
+            background-color: var(--surface);
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 32px;
+            border-bottom: 1px solid var(--border-light);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .search-bar {
+            position: relative;
+            width: 300px;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 10px 16px 10px 40px;
+            border-radius: 20px;
+            border: 1px solid var(--border-light);
+            background: #f9fafb;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .search-bar input:focus {
+            border-color: var(--accent-color);
+        }
+
+        .search-bar i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+        }
+
+        .admin-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 500;
+        }
+
+        .admin-profile img {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        /* Dashboard View */
+        .content-area {
+            padding: 32px;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .page-header {
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .page-header h2 {
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        /* Stat Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background-color: var(--surface);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+            border: 1px solid var(--border-light);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .stat-icon {
+            width: 54px;
+            height: 54px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .stat-icon.blue {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .stat-icon.green {
+            background: #eef4ef;
+            color: var(--accent-color);
+        }
+
+        .stat-icon.purple {
+            background: #f3e5f5;
+            color: #7e57c2;
+        }
+
+        .stat-icon.orange {
+            background: #fff3e0;
+            color: #ef6c00;
+        }
+
+        .stat-info p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        .stat-info h3 {
+            font-size: 1.6rem;
+            margin-top: 4px;
+        }
+
+        /* Table & Modules */
+        .module-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 24px;
+        }
+
+        .panel {
+            background: var(--surface);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+            border: 1px solid var(--border-light);
+            overflow: hidden;
+        }
+
+        .panel-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+        }
+
+        .btn {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: opacity 0.2s;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 4px 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-light);
+            white-space: nowrap;
+        }
+
+        th {
+            background: #f9fafb;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        td {
+            font-size: 0.95rem;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .status-badge.active {
+            background: #eef4ef;
+            color: var(--accent-color);
+        }
+
+        .status-badge.pending {
+            background: #fff3e0;
+            color: #ef6c00;
+        }
+
+        /* Notification Feed */
+        .feed-item {
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--border-light);
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+        }
+
+        .feed-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #f4ecf0;
+            color: #b6758f;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .feed-content h4 {
+            font-size: 0.9rem;
+            margin-bottom: 4px;
+        }
+
+        .feed-content p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+    </style>
+    <style id="auth-cloak">body { display: none !important; }</style>
+
+    <style>
+    @media (max-width: 768px) {
+        body { flex-direction: column; overflow-y: auto !important; height: auto !important; }
+        .sidebar { width: 100%; height: auto; flex-direction: row; flex-wrap: nowrap; overflow-x: auto; padding: 10px; }
+        .sidebar .brand { display: none; }
+        .sidebar .nav-item { padding: 10px 15px; font-size: 0.85rem; flex-shrink: 0; white-space: nowrap; border-left: none !important; border-bottom: 2px solid transparent; }
+        .sidebar .nav-item.active { border-bottom: 2px solid var(--accent-color); }
+        .sidebar-footer { display: none; }
+        .main-content { overflow: visible !important; }
+        .topbar { padding: 15px; height: auto; display: flex; flex-direction: column; gap: 15px; align-items: stretch; position: relative; }
+        .search-bar, .search-bar input { width: 100%; }
+        .content-area { padding: 16px; width: 100%; }
+        .module-grid, .stats-grid, .split-view, .grid-3 { grid-template-columns: 1fr !important; flex-direction: column !important; display: flex !important; gap: 16px; }
+        .page-split { flex-direction: column !important; display: flex; }
+        .pane-left, .pane-right { width: 100% !important; max-width: 100% !important; flex: none; height: auto !important; }
+        .pane-right { border-left: none !important; border-top: 1px solid var(--border-light); margin-top: 20px; padding-top: 20px; }
+        .panel { overflow-x: auto; width: 100%; }
+        table { width: 100%; min-width: 600px; }
+        .page-header { flex-direction: column; align-items: flex-start; gap: 12px; }
+        .admin-profile { align-self: flex-end; }
+    }
+    </style>
+
+
+    <style>
+    @media (max-width: 768px) {
+        .page-split { overflow: visible !important; height: auto !important; min-height: auto !important; }
+        .main-content { height: auto !important; }
+        .editor-footer { flex-direction: column; gap: 16px; align-items: stretch; padding: 16px !important; }
+        .btn-save, .btn-archive { width: 100%; text-align: center; margin: 0; }
+        .editor-body { padding: 16px !important; }
+    }
+    </style>
+
+</head>
+
+<body>
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+        <div class="brand" style="font-size: 1.2rem;">
+            <i class="fa-solid fa-utensils"></i> Family Meal Plan
+        </div>
+
+        <a href="admin-dashboard.html" class="nav-item active">
+            <i class="fa-solid fa-chart-pie"></i> Dashboard
+        </a>
+        <a href="admin-revenue.html" class="nav-item">
+            <i class="fa-solid fa-sack-dollar"></i> Finance & Revenue
+        </a>
+        <a href="admin-users.html" class="nav-item">
+            <i class="fa-solid fa-users"></i> Users
+        </a>
+        <a href="admin-recipes.html" class="nav-item">
+            <i class="fa-solid fa-utensils"></i> Recipe Database
+        </a>
+        <a href="admin-sides.html" class="nav-item">
+            <i class="fa-solid fa-cookie-bite"></i> Side Dishes
+        </a>
+        <a href="admin-comms.html" class="nav-item">
+            <i class="fa-solid fa-bullhorn"></i> Push / Feedback 
+            <span id="sidebar-unread-comms" style="display:none; background: #e69a9b; color: white; border-radius: 10px; padding: 2px 8px; font-size: 0.7rem; margin-left: auto;"></span>
+        </a>
+        <a href="admin-settings.html" class="nav-item">
+            <i class="fa-solid fa-gear"></i> Settings
+        </a>
+        
+        <a href="admin-security.html" class="nav-item">
+            <i class="fa-solid fa-shield-halved"></i> Security & Audit
+        </a>
+
+        <a href="#" onclick="adminApp.logout()" class="nav-item" style="color: #e57373; margin-top: auto; margin-bottom: 20px;">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i> Secure Logout
+        </a>
+
+        <div class="sidebar-footer">
+            <p>System Version: 2.2.0</p>
+            <p style="margin-top: 8px; font-size: 0.7rem; color: rgba(255,255,255,0.3);">Operated by D&E Apps LLC</p>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top App Bar -->
+        <header class="topbar">
+            <div class="search-bar">
+                <i class="fa-solid fa-search"></i>
+                <input type="text" placeholder="Search users, recipes, IDs...">
+            </div>
+            <div class="admin-profile">
+                <span>System Administrator</span>
+                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=100&q=80"
+                    alt="Admin">
+            </div>
+        </header>
+
+        <!-- Dashboard View -->
+        <div class="content-area">
+            <div class="page-header">
+                <h2>Overview Dashboard</h2>
+                <button class="btn"><i class="fa-solid fa-plus"></i> Generate Report</button>
+            </div>
+
+            <!-- Stats Row -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon blue"><i class="fa-solid fa-users"></i></div>
+                    <div class="stat-info">
+                        <p>Total Active Moms</p>
+                        <h3 id="portal-total-users">0</h3>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon green"><i class="fa-solid fa-utensils"></i></div>
+                    <div class="stat-info">
+                        <p>Total Live Recipes</p>
+                        <h3 id="admin-total-recipes">0</h3>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon orange"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                    <div class="stat-info">
+                        <p>Open Help Tickets</p>
+                        <h3 id="portal-unread-tickets">0</h3>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon purple"><i class="fa-solid fa-sack-dollar"></i></div>
+                    <div class="stat-info">
+                        <p>Pro Subscriptions</p>
+                        <h3 id="portal-pro-subs">0</h3>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background:#fff3e0; color:#ef6c00;"><i class="fa-solid fa-rocket"></i></div>
+                    <div class="stat-info">
+                        <p>Sign-Up Velocity</p>
+                        <h3 id="portal-signup-rate" style="font-size:1.4rem;">Computing...</h3>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Complex Modules -->
+            <div class="module-grid">
+                <!-- User Table Panel -->
+                <div class="panel">
+                    <div class="panel-header">
+                        Recent User Signups
+                        <a href="#" style="font-size: 0.85rem; color: var(--accent-color); text-decoration: none;">View
+                            All</a>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>User</th>
+                                <th>Email</th>
+                                <th>Diet</th>
+                                <th>Status</th>
+                                <th>Joined</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-users-recent-tbody">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Live App Notice Panel -->
+                <div class="panel">
+                    <div class="panel-header">
+                        Live App Feedback & Tickets
+                        <a href="admin-comms.html" style="font-size: 0.85rem; color: var(--accent-color); text-decoration: none;">View All</a>
+                    </div>
+                    <!-- Empty feed -->
+                    <div id="portal-recent-tickets-feed" style="max-height: 400px; overflow-y: auto;">
+                        <div style="padding: 40px; text-align: center; color: var(--text-muted);">No system activities found. App pending launch.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Full-Width Moderation Queue Module -->
+            <div class="panel" style="margin-top: 24px; border: 1px solid #ef6c0033;">
+                <div class="panel-header" style="background: #fff8eb; color: #d05c00;">
+                    <span><i class="fa-solid fa-clipboard-check" style="margin-right:8px;"></i> Global Community Moderation Queue</span>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Recipe Title</th>
+                            <th>Author Hash</th>
+                            <th>Status Matrix</th>
+                            <th>Administrative Execution</th>
+                        </tr>
+                    </thead>
+                    <tbody id="admin-moderation-tbody">
+                        <tr>
+                            <td colspan="4" style="text-align: center; color: var(--text-muted); padding: 32px;">No incoming recipes awaiting review. The community is clean.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Admin backend logic -->
+    <script src="admin.js"></script>
+</body>
+</html>
