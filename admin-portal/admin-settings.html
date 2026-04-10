@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Family Meal Plan - Global Settings</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabaseClient.js"></script>
+
+    <style>
+        :root {
+            --sidebar-bg: #1e1e2d;
+            --sidebar-hover: #2a2a3f;
+            --sidebar-text: #a0a0b2;
+            --sidebar-active: #ffffff;
+            --accent-color: #9CB4A0;
+            --bg-color: #f4f6f8;
+            --surface: #ffffff;
+            --text-main: #333333;
+            --text-muted: #888888;
+            --border-light: #e1e4e8;
+            --danger-color: #e57373;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-main); display: flex; height: 100vh; overflow: hidden; }
+
+        /* Sidebar Shared */
+        .sidebar { width: 260px; background-color: var(--sidebar-bg); display: flex; flex-direction: column; color: white; }
+        .brand { padding: 24px; font-size: 1.2rem; font-weight: 700; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); margin-bottom: 16px; flex-wrap: wrap; }
+        .nav-item { padding: 16px 24px; display: flex; align-items: center; gap: 16px; color: var(--sidebar-text); text-decoration: none; font-weight: 500; transition: background 0.2s, color 0.2s; cursor: pointer; }
+        .nav-item:hover { background-color: var(--sidebar-hover); color: var(--sidebar-active); }
+        .nav-item.active { background-color: var(--sidebar-hover); color: var(--sidebar-active); border-left: 4px solid var(--accent-color); }
+        .nav-item i { font-size: 1.1rem; width: 20px; text-align: center; }
+        .sidebar-footer { margin-top: auto; padding: 24px; border-top: 1px solid rgba(255, 255, 255, 0.05); font-size: 0.85rem; color: var(--sidebar-text); }
+
+        /* Main Context */
+        .main-content { flex: 1; display: flex; flex-direction: column; overflow-y: auto; background-color: var(--bg-color); }
+        .topbar { background-color: var(--surface); height: 70px; display: flex; align-items: center; justify-content: space-between; padding: 0 32px; border-bottom: 1px solid var(--border-light); position: sticky; top: 0; z-index: 10;}
+        .admin-profile { display: flex; align-items: center; gap: 12px; font-weight: 500; margin-left: auto; }
+        .admin-profile img { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; }
+
+        .settings-container { padding: 32px; max-width: 1200px; margin: 0 auto; width: 100%; display: flex; flex-direction: column; gap: 32px; }
+        
+        .page-title { display: flex; flex-direction: column; gap: 8px; }
+        .page-title h2 { font-size: 1.8rem; font-weight: 600; }
+        .page-title p { color: var(--text-muted); font-size: 0.95rem; }
+
+        .section-card { background: var(--surface); border: 1px solid var(--border-light); border-radius: 12px; padding: 32px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; border-bottom: 1px solid var(--border-light); padding-bottom: 16px;}
+        .card-header h3 { font-size: 1.2rem; display: flex; align-items: center; gap: 12px; }
+        .card-header h3 i { color: var(--text-muted); }
+        
+        .btn { padding: 10px 20px; border-radius: 8px; font-weight: 600; font-size: 0.9rem; cursor: pointer; border: none; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px; }
+        .btn-primary { background: var(--text-main); color: white; }
+        .btn-primary:hover { background: #000; }
+        .btn-ghost { background: transparent; color: var(--text-muted); border: 1px solid var(--border-light); }
+        .btn-ghost:hover { background: #f9fafb; color: var(--text-main); }
+        .btn-danger { background: transparent; color: var(--danger-color); }
+        .btn-danger:hover { background: #ffebee; }
+
+        /* Diet Taxonomy Table */
+        table { width: 100%; border-collapse: collapse; }
+        th { text-align: left; font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted); font-weight: 600; padding: 12px; border-bottom: 2px solid var(--border-light); }
+        td { padding: 16px 12px; font-size: 0.9rem; border-bottom: 1px solid var(--border-light); vertical-align: middle; }
+        tr:last-child td { border-bottom: none; }
+        
+        .diet-icon-box { width: 40px; height: 40px; background: #fafafa; border: 1px solid var(--border-light); border-radius: 8px; display: flex; justify-content: center; align-items: center; font-size: 1.2rem; color: var(--text-main); }
+
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+        .form-group { display: flex; flex-direction: column; gap: 8px; }
+        .form-group label { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; }
+        .form-group input, .form-group select { padding: 12px; border: 1px solid var(--border-light); border-radius: 8px; font-family: inherit; font-size: 0.95rem; background: #fafbfc; outline: none; transition: border-color 0.2s; }
+        .form-group input:focus { border-color: var(--accent-color); }
+
+        .tgl-group { display: flex; align-items: center; justify-content: space-between; padding: 16px; border: 1px solid var(--border-light); border-radius: 8px; }
+        .tgl-info { display: flex; flex-direction: column; gap: 4px; }
+        .tgl-info strong { font-size: 0.95rem; color: var(--text-main); }
+        .tgl-info span { font-size: 0.8rem; color: var(--text-muted); }
+        
+    </style>
+    <style id="auth-cloak">body { display: none !important; }</style>
+
+    
+
+
+    
+
+
+    
+
+
+<style>
+@media(max-width: 768px){ 
+    body, html { height: auto !important; overflow: visible !important; } 
+    .main-content, .page-split, .pane-left, .pane-right { display: block !important; height: auto !important; overflow: visible !important; position: static !important; } 
+    .btn-save, .btn-archive { width: 100% !important; padding: 20px !important; margin: 10px 0 !important; font-size: 1.2rem !important; } 
+    .table-wrapper { max-height: 400px; overflow-y: auto; }
+}
+</style>
+
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="brand" style="font-size: 1.2rem;">
+            <i class="fa-solid fa-utensils"></i> Family Meal Plan
+        </div>
+
+        <a href="admin-dashboard.html" class="nav-item">
+            <i class="fa-solid fa-chart-pie"></i> Dashboard
+        </a>
+        <a href="admin-revenue.html" class="nav-item">
+            <i class="fa-solid fa-sack-dollar"></i> Finance & Revenue
+        </a>
+        <a href="admin-users.html" class="nav-item">
+            <i class="fa-solid fa-users"></i> Users
+        </a>
+        <a href="admin-recipes.html" class="nav-item">
+            <i class="fa-solid fa-utensils"></i> Recipe Database
+        </a>
+        <a href="admin-sides.html" class="nav-item">
+            <i class="fa-solid fa-cookie-bite"></i> Side Dishes
+        </a>
+        <a href="admin-comms.html" class="nav-item">
+            <i class="fa-solid fa-bullhorn"></i> Push / Feedback 
+            <span id="sidebar-unread-comms" style="display:none; background: #e69a9b; color: white; border-radius: 10px; padding: 2px 8px; font-size: 0.7rem; margin-left: auto;"></span>
+        </a>
+        <a href="admin-settings.html" class="nav-item active">
+            <i class="fa-solid fa-gear"></i> Settings
+        </a>
+        
+        <a href="admin-security.html" class="nav-item">
+            <i class="fa-solid fa-shield-halved"></i> Security & Audit
+        </a>
+
+        <a href="#" onclick="adminApp.logout()" class="nav-item" style="color: #e57373; margin-top: auto; margin-bottom: 20px;">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i> Secure Logout
+        </a>
+
+        <div class="sidebar-footer">
+            <p>System Version: 2.2.0</p>
+            <p style="margin-top: 8px; font-size: 0.7rem; color: rgba(255,255,255,0.3);">Operated by D&E Apps LLC</p>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="topbar">
+            <span>Core System Configuration</span>
+            <div class="admin-profile">
+                <span>System Administrator</span>
+                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=100&q=80" alt="Admin">
+            </div>
+        </header>
+
+        <div class="settings-container">
+            <div class="page-title">
+                <h2>Platform Settings</h2>
+                <p>Manage application-wide mechanics, dietary options, and integrations.</p>
+            </div>
+
+            <!-- Account Security Module -->
+            <div class="section-card" style="border-left: 4px solid var(--accent-blue);">
+                <div class="card-header" style="border-bottom: none; margin-bottom: 0;">
+                    <div>
+                        <h3 style="display: flex; align-items: center; gap: 8px;"><i class="fa-solid fa-key" style="color: var(--accent-blue);"></i> Base Authentication</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">Convert your passwordless Magic Link session into a permanent Chrome-saved password.</p>
+                    </div>
+                </div>
+                <div style="padding: 0 24px 24px 24px; display: flex; align-items: flex-end; gap: 16px;">
+                    <div class="form-group" style="flex: 1; margin: 0;">
+                        <label style="font-size: 0.75rem;">New Permanent Password</label>
+                        <input type="password" id="new-auth-password" placeholder="Minimum 12 Characters..." style="padding: 10px; width: 100%; border: 1px solid var(--border-light); border-radius: 6px;">
+                    </div>
+                    <button class="btn btn-primary" style="width: auto; padding: 10px 20px;" onclick="adminApp.updateAdminPassword()">
+                        <i class="fa-solid fa-lock"></i> Lock In Password
+                    </button>
+                </div>
+            </div>
+
+            <!-- Diet Types Editor -->
+            <div class="section-card">
+                <div class="card-header">
+                    <h3><i class="fa-solid fa-leaf"></i> Dietary Taxonomy & Tags</h3>
+                    <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">Hide or unhide global application diets. Creating or rigidly deleting diets is restricted due to downstream Mobile Auth impacts.</p>
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 70px;">Icon</th>
+                            <th>Display Name</th>
+                            <th>Internal Key</th>
+                            <th style="text-align: right;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="admin-diets-tbody">
+                        <tr>
+                            <td colspan="4" style="text-align:center; padding: 40px; color:var(--text-muted);">
+                                <i class="fa-solid fa-spinner fa-spin"></i> Synchronizing Global Ecosystem Diets...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- App Integrations -->
+            <div class="section-card">
+                <div class="card-header">
+                    <h3><i class="fa-solid fa-plug"></i> API Integrations</h3>
+                    <button class="btn btn-ghost">Run Diagnostics</button>
+                </div>
+
+                <div class="form-grid">
+                    <div class="tgl-group">
+                        <div class="tgl-info">
+                            <strong>Walmart Curbside API</strong>
+                            <span>Live shopping list push integration.</span>
+                        </div>
+                        <input type="checkbox" checked style="width: 20px; height: 20px; accent-color: #0071ce;">
+                    </div>
+                    
+                    <div class="tgl-group">
+                        <div class="tgl-info">
+                            <strong>Instacart API</strong>
+                            <span>Shoppable recipes functionality.</span>
+                        </div>
+                        <input type="checkbox" checked style="width: 20px; height: 20px; accent-color: #0fad49;">
+                    </div>
+                    
+                    <div class="form-group" style="grid-column: 1 / -1;">
+                        <label>Stripe Live Publishable Key</label>
+                        <input type="password" value="pk_live_51NQo93Bcx8p***************************">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Admin Controller -->
+    <script src="admin.js"></script>
+</body>
+
+</html>
+
