@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Family Meal Plan - Admin Portal - Side Dishes</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabaseClient.js"></script>
+
+    <style>
+        :root {
+            --sidebar-bg: #1e1e2d;
+            --sidebar-hover: #2a2a3f;
+            --sidebar-text: #a0a0b2;
+            --sidebar-active: #ffffff;
+            --accent-color: #9CB4A0;
+            --bg-color: #f4f6f8;
+            --surface: #ffffff;
+            --text-main: #333333;
+            --text-muted: #888888;
+            --border-light: #e1e4e8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 260px;
+            background-color: var(--sidebar-bg);
+            display: flex;
+            flex-direction: column;
+            color: white;
+            transition: all 0.3s;
+        }
+
+        .brand {
+            padding: 24px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            margin-bottom: 16px;
+        }
+
+        .brand i {
+            color: var(--accent-color);
+        }
+
+        .nav-item {
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            color: var(--sidebar-text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: background 0.2s, color 0.2s;
+            cursor: pointer;
+        }
+
+        .nav-item:hover {
+            background-color: var(--sidebar-hover);
+            color: var(--sidebar-active);
+        }
+
+        .nav-item.active {
+            background-color: var(--sidebar-hover);
+            color: var(--sidebar-active);
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .nav-item i {
+            font-size: 1.1rem;
+            width: 20px;
+            text-align: center;
+        }
+
+        .sidebar-footer {
+            margin-top: auto;
+            padding: 24px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.85rem;
+            color: var(--sidebar-text);
+        }
+
+        /* Main Content Area */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        .topbar {
+            background-color: var(--surface);
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 32px;
+            border-bottom: 1px solid var(--border-light);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .search-bar {
+            position: relative;
+            width: 300px;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 10px 16px 10px 40px;
+            border-radius: 20px;
+            border: 1px solid var(--border-light);
+            background: #f9fafb;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .search-bar input:focus {
+            border-color: var(--accent-color);
+        }
+
+        .search-bar i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+        }
+
+        .admin-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 500;
+        }
+
+        .admin-profile img {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        /* Dashboard View */
+        .content-area {
+            padding: 32px;
+            max-width: 1000px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .page-header {
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .page-header h2 {
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        /* Table & Modules */
+        .panel {
+            background: var(--surface);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+            border: 1px solid var(--border-light);
+            overflow: hidden;
+            margin-bottom: 32px;
+        }
+
+        .panel-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+        }
+
+        .btn {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: opacity 0.2s;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 16px 24px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        th {
+            background: #f9fafb;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        td {
+            font-size: 0.95rem;
+        }
+
+        .edit-input {
+            width: 100%;
+            min-width: 80px;
+            padding: 6px 10px;
+            border-radius: 4px;
+            border: 1px solid var(--border-light);
+            font-family: inherit;
+            font-size: 0.95rem;
+        }
+
+        .action-icon {
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 1.1rem;
+            margin-left: 10px;
+            transition: color 0.2s;
+        }
+
+        .action-icon:hover {
+            color: var(--text-main);
+        }
+    </style>
+    <style id="auth-cloak">body { display: none !important; }</style>
+
+    
+
+
+    
+
+
+    
+
+
+<style>
+@media(max-width: 768px){ 
+    body, html { height: auto !important; overflow: visible !important; } 
+    .main-content, .page-split, .pane-left, .pane-right { display: block !important; height: auto !important; overflow: visible !important; position: static !important; } 
+    .btn-save, .btn-archive { width: 100% !important; padding: 20px !important; margin: 10px 0 !important; font-size: 1.2rem !important; } 
+    .table-wrapper { max-height: 400px; overflow-y: auto; }
+}
+</style>
+
+</head>
+
+<body>
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+        <div class="brand" style="font-size: 1.2rem;">
+            <i class="fa-solid fa-utensils"></i> Family Meal Plan
+        </div>
+
+        <a href="admin-dashboard.html" class="nav-item">
+            <i class="fa-solid fa-chart-pie"></i> Dashboard
+        </a>
+        <a href="admin-revenue.html" class="nav-item">
+            <i class="fa-solid fa-sack-dollar"></i> Finance & Revenue
+        </a>
+        <a href="admin-users.html" class="nav-item">
+            <i class="fa-solid fa-users"></i> Users
+        </a>
+        <a href="admin-recipes.html" class="nav-item">
+            <i class="fa-solid fa-utensils"></i> Recipe Database
+        </a>
+        <a href="admin-affiliates.html" class="nav-item">
+            <i class="fa-solid fa-link"></i> Monetization Manager
+        </a>
+        <a href="admin-sides.html" class="nav-item active">
+            <i class="fa-solid fa-cookie-bite"></i> Side Dishes
+        </a>
+        <a href="admin-comms.html" class="nav-item">
+            <i class="fa-solid fa-bullhorn"></i> Push / Feedback 
+            <span id="sidebar-unread-comms" style="display:none; background: #e69a9b; color: white; border-radius: 10px; padding: 2px 8px; font-size: 0.7rem; margin-left: auto;"></span>
+        </a>
+        <a href="admin-settings.html" class="nav-item">
+            <i class="fa-solid fa-gear"></i> Settings
+        </a>
+        
+        <a href="admin-security.html" class="nav-item">
+            <i class="fa-solid fa-shield-halved"></i> Security & Audit
+        </a>
+
+        <a href="#" onclick="adminApp.logout()" class="nav-item" style="color: #e57373; margin-top: auto; margin-bottom: 20px;">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i> Secure Logout
+        </a>
+
+        <div class="sidebar-footer">
+            <p>System Version: 2.2.0</p>
+            <p style="margin-top: 8px; font-size: 0.7rem; color: rgba(255,255,255,0.3);">Operated by D&E Apps LLC</p>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top App Bar -->
+        <header class="topbar">
+            <div class="search-bar">
+                <i class="fa-solid fa-search"></i>
+                <input type="text" id="admin-sides-search" placeholder="Search sides or calories..." onkeyup="adminApp.applySideFilters()">
+            </div>
+            <div class="admin-profile">
+                <span>System Administrator</span>
+                <img src="assets/avatar.jpg"
+                    alt="Admin">
+            </div>
+        </header>
+
+        <!-- Dashboard View -->
+        <div class="content-area">
+            <div class="page-header">
+                <h2>Side Dish Catalog</h2>
+                <button class="btn" onclick="adminApp.addNewSideRow()"><i class="fa-solid fa-plus"></i> Add New Side</button>
+            </div>
+
+            <!-- Global Sides Table Panel -->
+            <div class="panel">
+                <div class="panel-header">
+                    Global App Variables: Side Dishes
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 60%;">Side Dish Name</th>
+                            <th style="width: 15%;">Calories (cal)</th>
+                            <th style="width: 15%;">Status</th>
+                            <th style="width: 10%;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="admin-sides-list">
+                        <tr>
+                            <td colspan="4" style="padding: 40px; text-align: center; color: var(--text-muted);">
+                                No global side dishes found in Supabase.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p style="text-align: center; color: var(--text-muted); font-size: 0.85rem; margin-top: 32px;">
+                <i class="fa-solid fa-database"></i> Modifying items in this global list updates the dropdown menu inside every active <strong>Family Meal Plan</strong> mobile app in real-time.
+            </p>
+
+        </div>
+    </main>
+    <script src="admin.js"></script>
+</body>
+
+</html>
+
