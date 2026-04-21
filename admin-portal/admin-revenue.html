@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Family Meal Plan - Finance & Revenue</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabaseClient.js"></script>
+    <!-- Chart.js for data visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        :root {
+            --sidebar-bg: #1e1e2d;
+            --sidebar-hover: #2a2a3f;
+            --sidebar-text: #a0a0b2;
+            --sidebar-active: #ffffff;
+            --accent-color: #9CB4A0;
+            --accent-money: #4CAF50;
+            --bg-color: #f4f6f8;
+            --surface: #ffffff;
+            --text-main: #333333;
+            --text-muted: #888888;
+            --border-light: #e1e4e8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Sidebar Styles (Shared) */
+        .sidebar { width: 260px; background-color: var(--sidebar-bg); display: flex; flex-direction: column; color: white; }
+        .brand { padding: 24px; font-size: 1.5rem; font-weight: 700; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); margin-bottom: 16px; }
+        .brand i { color: var(--accent-color); }
+        .nav-item { padding: 16px 24px; display: flex; align-items: center; gap: 16px; color: var(--sidebar-text); text-decoration: none; font-weight: 500; transition: background 0.2s, color 0.2s; cursor: pointer;}
+        .nav-item:hover { background-color: var(--sidebar-hover); color: var(--sidebar-active); }
+        .nav-item.active { background-color: var(--sidebar-hover); color: var(--sidebar-active); border-left: 4px solid var(--accent-money); }
+        .nav-item i { font-size: 1.1rem; width: 20px; text-align: center; }
+        .sidebar-footer { margin-top: auto; padding: 24px; border-top: 1px solid rgba(255, 255, 255, 0.05); font-size: 0.85rem; color: var(--sidebar-text); }
+
+        /* Main Content */
+        .main-content { flex: 1; display: flex; flex-direction: column; overflow-y: auto; }
+        .topbar { background-color: var(--surface); height: 70px; display: flex; align-items: center; justify-content: space-between; padding: 0 32px; border-bottom: 1px solid var(--border-light); position: sticky; top: 0; z-index: 10; }
+        .admin-profile { display: flex; align-items: center; gap: 12px; font-weight: 500; margin-left: auto; }
+        .admin-profile img { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; }
+
+        .content-area { padding: 32px; max-width: 1400px; margin: 0 auto; width: 100%; }
+        .page-header { margin-bottom: 24px; display: flex; justify-content: space-between; align-items: flex-end; }
+        .page-header h2 { font-size: 1.8rem; font-weight: 600; }
+        .download-btn { background: var(--text-main); color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: 600; display: flex; gap: 8px; align-items: center; }
+
+        /* Revenue Stats */
+        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-bottom: 24px; }
+        .kpi-card { background: var(--surface); padding: 24px; border-radius: 12px; border: 1px solid var(--border-light); box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
+        .kpi-title { font-size: 0.8rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; margin-bottom: 8px; }
+        .kpi-value { font-size: 2rem; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 12px; }
+        .trend { font-size: 0.9rem; font-weight: 600; padding: 4px 8px; border-radius: 20px; }
+        .trend.up { background: #eef4ef; color: #4CAF50; }
+
+        /* Chart Canvas */
+        .chart-container { background: var(--surface); border-radius: 12px; padding: 24px; border: 1px solid var(--border-light); box-shadow: 0 2px 10px rgba(0,0,0,0.02); margin-bottom: 24px; position: relative; height: 400px; width: 100%; }
+        .chart-header { display: flex; justify-content: space-between; margin-bottom: 16px; font-weight: 600; }
+        
+        .breakdown-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 24px;}
+        .panel { background: var(--surface); border-radius: 12px; overflow: hidden; border: 1px solid var(--border-light); display: flex; flex-direction: column; }
+        .panel-header { padding: 20px 24px; border-bottom: 1px solid var(--border-light); font-weight: 600; background: #fafbfc;}
+
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 14px 24px; text-align: left; border-bottom: 1px solid var(--border-light); }
+        th { font-size: 0.8rem; text-transform: uppercase; color: var(--text-muted); font-weight: 600; }
+        td { font-size: 0.9rem; }
+        
+        .type-badge { padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; background: #f3e5f5; color: #7e57c2; }
+        .type-badge.api { background: #e3f2fd; color: #1976d2; }
+
+        /* Source Progress Bars */
+        .source-item { padding: 16px 24px; border-bottom: 1px solid var(--border-light); }
+        .source-header { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.9rem; font-weight: 600; }
+        .progress-track { height: 8px; background: #eee; border-radius: 4px; overflow: hidden; }
+        .progress-fill { height: 100%; border-radius: 4px; }
+        
+        @keyframes fadeInRow {
+            from { background-color: #e8f5e9; opacity: 0; transform: translateX(-10px); }
+            to { background-color: transparent; opacity: 1; transform: translateX(0); }
+        }
+    </style>
+    <style id="auth-cloak">body { display: none !important; }</style>
+
+    
+
+
+    
+
+
+    
+
+
+<style>
+@media(max-width: 768px){ 
+    body, html { height: auto !important; overflow: visible !important; } 
+    .main-content, .page-split, .pane-left, .pane-right { display: block !important; height: auto !important; overflow: visible !important; position: static !important; } 
+    .btn-save, .btn-archive { width: 100% !important; padding: 20px !important; margin: 10px 0 !important; font-size: 1.2rem !important; } 
+    .table-wrapper { max-height: 400px; overflow-y: auto; }
+}
+</style>
+
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="brand" style="font-size: 1.2rem;">
+            <i class="fa-solid fa-utensils"></i> Family Meal Plan
+        </div>
+
+        <a href="admin-dashboard.html" class="nav-item">
+            <i class="fa-solid fa-chart-pie"></i> Dashboard
+        </a>
+        <a href="admin-revenue.html" class="nav-item active">
+            <i class="fa-solid fa-sack-dollar"></i> Finance & Revenue
+        </a>
+        <a href="admin-users.html" class="nav-item">
+            <i class="fa-solid fa-users"></i> Users
+        </a>
+        <a href="admin-recipes.html" class="nav-item">
+            <i class="fa-solid fa-utensils"></i> Recipe Database
+        </a>
+        <a href="admin-affiliates.html" class="nav-item">
+            <i class="fa-solid fa-link"></i> Monetization Manager
+        </a>
+        <a href="admin-sides.html" class="nav-item">
+            <i class="fa-solid fa-cookie-bite"></i> Side Dishes
+        </a>
+        <a href="admin-comms.html" class="nav-item">
+            <i class="fa-solid fa-bullhorn"></i> Push / Feedback 
+            <span id="sidebar-unread-comms" style="display:none; background: #e69a9b; color: white; border-radius: 10px; padding: 2px 8px; font-size: 0.7rem; margin-left: auto;"></span>
+        </a>
+        <a href="admin-settings.html" class="nav-item">
+            <i class="fa-solid fa-gear"></i> Settings
+        </a>
+        
+        <a href="admin-security.html" class="nav-item">
+            <i class="fa-solid fa-shield-halved"></i> Security & Audit
+        </a>
+
+        <a href="#" onclick="adminApp.logout()" class="nav-item" style="color: #e57373; margin-top: auto; margin-bottom: 20px;">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i> Secure Logout
+        </a>
+
+        <div class="sidebar-footer">
+            <p>System Version: 2.2.0</p>
+            <p style="margin-top: 8px; font-size: 0.7rem; color: rgba(255,255,255,0.3);">Operated by D&E Apps LLC</p>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="topbar">
+            <span>Finance Overview</span>
+            <div class="admin-profile">
+                <span>System Administrator</span>
+                <img src="https://upload.wikimedia.org/wikipedia/en/thumb/d/d5/Marvin_the_Martian.svg/200px-Marvin_the_Martian.svg.png" alt="Admin">
+            </div>
+        </header>
+
+        <div class="content-area">
+            <div class="page-header">
+                <h2>Revenue Analytics</h2>
+                <button class="download-btn"><i class="fa-solid fa-cloud-arrow-down"></i> Export .CSV</button>
+            </div>
+
+            <!-- KPI Row -->
+            <div class="stats-grid">
+                <div class="kpi-card">
+                    <div class="kpi-title">Monthly Recurring Rev (MRR)</div>
+                    <div class="kpi-value" id="stat-mrr">$0 <span class="trend" id="trend-mrr">0%</span></div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-title">Annual Run Rate (ARR)</div>
+                    <div class="kpi-value" id="stat-arr">$0 <span class="trend" id="trend-arr">0%</span></div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-title">Active Paying Subscribers</div>
+                    <div class="kpi-value" id="stat-active-subs">0 <span class="trend" id="trend-subs">0%</span></div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-title">Avg Revenue Per User (Est)</div>
+                    <div class="kpi-value"><span id="stat-arpu">$0.00</span> /mo</div>
+                </div>
+            </div>
+
+            <!-- Dynamic Chart -->
+            <div class="chart-container">
+                <div class="chart-header">
+                    <span>Revenue Projections (Actual vs Projected)</span>
+                    <span style="color: var(--text-muted); font-size: 0.9rem; font-weight: normal;">Trailing 6 mos / Projected 6 mos</span>
+                </div>
+                <canvas id="revenueChart"></canvas>
+            </div>
+
+            <div class="breakdown-grid">
+                <div class="panel">
+                    <div class="panel-header">Recent Transactions (Live)</div>
+                    <table>
+                        <thead>
+                            <tr><th>Transaction ID</th><th>User</th><th>Source</th><th>Amount</th><th>Time</th></tr>
+                        </thead>
+                        <tbody id="admin-revenue-txn-list">
+                            <tr><td colspan="5" style="padding: 40px; text-align: center; color: var(--text-muted);">No transaction history found. App pending launch.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Income Breakdown Bars -->
+                <div class="panel">
+                    <div class="panel-header">Income Distribution (YTD)</div>
+                    <div class="source-item">
+                        <div class="source-header"><span>Monthly Subs ($9.99/mo)</span> <span>65%</span></div>
+                        <div class="progress-track"><div class="progress-fill" style="width: 65%; background: #7e57c2;"></div></div>
+                        <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 6px;">$154,000 Volume</div>
+                    </div>
+                    <div class="source-item">
+                        <div class="source-header"><span>Annual Subs ($99.99/yr)</span> <span>20%</span></div>
+                        <div class="progress-track"><div class="progress-fill" style="width: 20%; background: #ab47bc;"></div></div>
+                        <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 6px;">$58,200 Volume</div>
+                    </div>
+                    <div class="source-item">
+                        <div class="source-header"><span>Walmart Grocery API</span> <span>10%</span></div>
+                        <div class="progress-track"><div class="progress-fill" style="width: 10%; background: #0071ce;"></div></div>
+                        <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 6px;">$24,000 Volume</div>
+                    </div>
+                    <div class="source-item" style="border-bottom: none;">
+                        <div class="source-header"><span>Instacart Affiliate API</span> <span>5%</span></div>
+                        <div class="progress-track"><div class="progress-fill" style="width: 5%; background: #0fad49;"></div></div>
+                        <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 6px;">$11,500 Volume</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Chart Configuration Script -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // === JUNE 2027 SIMULATION ENGINE ===
+            
+            // 1. Base Variables
+            let activeSubs = 1000000;
+            const PRICE = 8.99;
+            const REFERRAL_SKIP_RATE = 0.05; // 5% of users are on free months
+            
+            const formatMoney = (num) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(num);
+            const formatNumber = (num) => new Intl.NumberFormat('en-US').format(Math.floor(num));
+            
+            // 2. Update KPI Dashboard
+            function updateKPIs() {
+                const payingSubs = activeSubs * (1 - REFERRAL_SKIP_RATE);
+                const subMRR = payingSubs * PRICE;
+                const affiliateMRR = activeSubs * 0.45; // Est. 45 cents per user monthly from API carts
+                const totalMRR = subMRR + affiliateMRR;
+                const arr = totalMRR * 12;
+                
+                document.getElementById('stat-mrr').innerHTML = `${formatMoney(totalMRR)} <span class="trend up" style="font-size:12px;">+12.4% MoM</span>`;
+                document.getElementById('stat-arr').innerHTML = `${formatMoney(arr)} <span class="trend up" style="font-size:12px;">Scale</span>`;
+                document.getElementById('stat-active-subs').innerHTML = `${formatNumber(activeSubs)} <span class="trend up" style="font-size:12px;">Live</span>`;
+                document.getElementById('stat-arpu').innerHTML = formatMoney(totalMRR / activeSubs);
+            }
+            
+            updateKPIs(); // initial load
+
+            // 3. Live Transaction Engine
+            const tbody = document.getElementById('admin-revenue-txn-list');
+            tbody.innerHTML = ''; // clear placeholder
+            
+            const sources = [
+                { name: 'Apple App Store ($8.99)', color: '#000000', min: 8.99, max: 8.99 },
+                { name: 'Google Play Sub ($8.99)', color: '#4CAF50', min: 8.99, max: 8.99 },
+                { name: 'Walmart API (Cart: $185)', color: '#0071ce', min: 1.50, max: 4.20 },
+                { name: 'Instacart API (Cart: $210)', color: '#0fad49', min: 2.10, max: 5.50 },
+                { name: 'Target API (Cart: $95)', color: '#cc0000', min: 0.90, max: 2.10 },
+                { name: 'Kroger API (Cart: $140)', color: '#0054a4', min: 1.40, max: 3.80 },
+                { name: 'Amazon Fresh (Cart: $110)', color: '#ff9900', min: 1.10, max: 3.10 }
+            ];
+
+            function addTransaction() {
+                const src = sources[Math.floor(Math.random() * sources.length)];
+                const amt = (Math.random() * (src.max - src.min)) + src.min;
+                const txnId = 'TXN-' + Math.floor(Math.random() * 90000000 + 10000000);
+                const userHash = 'USR-' + Math.random().toString(36).substring(2, 6).toUpperCase();
+                
+                const tr = document.createElement('tr');
+                tr.style.animation = "fadeInRow 0.6s ease-out forwards";
+                tr.innerHTML = `
+                    <td style="font-family: monospace; color: #888;">${txnId}</td>
+                    <td style="font-weight: 500;">${userHash}</td>
+                    <td><span class="type-badge" style="background:${src.color}15; color:${src.color}; border: 1px solid ${src.color}30;">${src.name}</span></td>
+                    <td style="font-weight: 800; color: #2e7d32;">+${formatMoney(amt)}</td>
+                    <td style="color: #999; font-size: 0.8rem;">Just now</td>
+                `;
+                
+                tbody.prepend(tr);
+                if (tbody.children.length > 7) {
+                    tbody.removeChild(tbody.lastChild);
+                }
+                
+                // Rapid User Growth Tick
+                if(Math.random() > 0.4) {
+                    activeSubs += Math.floor(Math.random() * 3) + 1;
+                    updateKPIs();
+                }
+            }
+
+            // Fire a transaction every 800ms to simulate hyper-scale load
+            setInterval(addTransaction, 800);
+            // Pre-fill a few immediately
+            for(let i=0; i<7; i++) setTimeout(addTransaction, i*100);
+
+            // 4. June 2027 Chart Injector
+            const ctx = document.getElementById('revenueChart').getContext('2d');
+            const dataBase = 4500000;
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan 2027', 'Feb 2027', 'Mar 2027', 'Apr 2027', 'May 2027', 'Jun 2027 (Current)', 'Jul (Est)', 'Aug (Est)'],
+                    datasets: [
+                        {
+                            label: 'Actual Revenue ($)',
+                            data: [dataBase, dataBase*1.15, dataBase*1.3, dataBase*1.55, dataBase*1.8, 8940500, null, null],
+                            borderColor: '#7e57c2',
+                            backgroundColor: 'rgba(126, 87, 194, 0.15)',
+                            borderWidth: 4,
+                            tension: 0.4,
+                            fill: true,
+                            pointBackgroundColor: '#7e57c2',
+                            pointRadius: 6
+                        },
+                        {
+                            label: 'Projected Trajectory',
+                            data: [null, null, null, null, null, 8940500, 9500000, 10200000],
+                            borderColor: '#4CAF50',
+                            borderWidth: 4,
+                            borderDash: [5, 5],
+                            tension: 0.4,
+                            pointBackgroundColor: '#4CAF50',
+                            pointRadius: 6
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom' } },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: { callback: (value) => '$' + (value/1000000).toFixed(1) + 'M' }
+                        },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+        });
+    </script>
+    <script src="admin.js"></script>
+</body>
+</html>
+
