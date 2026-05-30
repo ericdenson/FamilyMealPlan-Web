@@ -11,8 +11,8 @@
     <!-- Ionicons for strict branding alignment -->
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="style.css">
+    <!-- Custom CSS with cache-busting -->
+    <link rel="stylesheet" href="style.css?v=1.0.1">
     
     <!-- Supabase Auth Interceptor for Password Reset -->
     <script>
@@ -34,7 +34,7 @@
             <li><a href="#magic">Magic AI</a></li>
             <li><a href="#checkout">Automatic Groceries</a></li>
         </ul>
-        <a href="#download" class="cta-button">Get the App</a>
+        <a href="#download" class="cta-button" id="trigger-nav-download">Get the App</a>
     </nav>
 
     <!-- Vibrant Hero Section -->
@@ -48,7 +48,7 @@
             <p>Snap a photo of mom's handwritten recipe cards, pull them effortlessly into your weekly calendar, and send the exact ingredients directly to Instacart in a single click.</p>
             
             <div class="hero-buttons">
-                <a href="#download" class="btn-primary">Download Free</a>
+                <a href="#download" class="btn-primary" id="trigger-hero-download">Download Free</a>
                 <a href="#features" class="btn-secondary">See How It Works</a>
             </div>
         </div>
@@ -121,10 +121,10 @@
         <div class="footer-content">
             <h2>Ready to conquer dinner?</h2>
             <div class="store-badges">
-                <a href="#" class="badge-link">
+                <a href="#" class="badge-link" id="trigger-app-store">
                     <img src="assets/app-store-badge.svg" alt="Download on the App Store">
                 </a>
-                <a href="#" class="badge-link">
+                <a href="#" class="badge-link" id="trigger-google-play">
                     <img src="assets/google-play-badge.svg" alt="Get it on Google Play">
                 </a>
             </div>
@@ -170,26 +170,39 @@
             const submitBtn = document.getElementById('waitlist-submit-btn');
             const messageDiv = document.getElementById('waitlist-message');
 
-            // Find all buttons that direct to #download or badges
-            const triggers = [
-                document.querySelector('.cta-button'), // Navbar
-                document.querySelector('.btn-primary'), // Hero
-                ...document.querySelectorAll('.badge-link') // Badges
-            ];
+            let selectedPlatform = 'General';
 
-            const openModal = (e) => {
+            const openModal = (e, platformOverride) => {
                 e.preventDefault();
                 modal.classList.add('active');
                 emailInput.focus();
                 messageDiv.className = 'modal-message';
                 messageDiv.textContent = '';
+                
+                if (platformOverride) {
+                    selectedPlatform = platformOverride;
+                } else {
+                    // Fallback to User Agent detection for general buttons
+                    if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+                        selectedPlatform = 'iPhone';
+                    } else if (/Android/i.test(navigator.userAgent)) {
+                        selectedPlatform = 'Android';
+                    } else {
+                        selectedPlatform = 'General';
+                    }
+                }
+                console.log('User segment platform:', selectedPlatform);
             };
 
-            triggers.forEach(trigger => {
-                if (trigger) {
-                    trigger.addEventListener('click', openModal);
-                }
-            });
+            const navBtn = document.getElementById('trigger-nav-download');
+            const heroBtn = document.getElementById('trigger-hero-download');
+            const appStoreBtn = document.getElementById('trigger-app-store');
+            const googlePlayBtn = document.getElementById('trigger-google-play');
+
+            if (navBtn) navBtn.addEventListener('click', (e) => openModal(e, null));
+            if (heroBtn) heroBtn.addEventListener('click', (e) => openModal(e, null));
+            if (appStoreBtn) appStoreBtn.addEventListener('click', (e) => openModal(e, 'iPhone'));
+            if (googlePlayBtn) googlePlayBtn.addEventListener('click', (e) => openModal(e, 'Android'));
 
             closeBtn.addEventListener('click', () => {
                 modal.classList.remove('active');
@@ -222,7 +235,7 @@
                             'Content-Type': 'application/json',
                             'Prefer': 'return=minimal'
                         },
-                        body: JSON.stringify({ email: email })
+                        body: JSON.stringify({ email: email, platform: selectedPlatform })
                     });
 
                     if (response.ok) {
