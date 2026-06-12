@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claim Your Recipe | Family Meal Plan</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <!-- Ionicons for strict branding alignment -->
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="admin-portal/config.js"></script>
+    <script src="admin-portal/supabaseClient.js"></script>
+
+    <style>
+        :root {
+            --bg-color: #faf8f5;
+            --surface: #ffffff;
+            --text-main: #3e332e;
+            --text-muted: #8c6858;
+            --border-light: #f0e6df;
+            --accent-color: #e07a5f;
+            --accent-hover: #d46c51;
+            --accent-light: #fcece2;
+            --success-color: #4eb87b;
+            --shadow: 0 10px 30px rgba(62, 51, 46, 0.05);
+            --radius: 16px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            background-image: radial-gradient(circle at top right, #fcece2 0%, transparent 40%), radial-gradient(circle at bottom left, #eef3fe 0%, transparent 40%);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            margin: 40px auto;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .logo-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: 8px;
+        }
+
+        .logo-header ion-icon {
+            font-size: 1.8rem;
+        }
+
+        /* Loading / Error / Info States */
+        .state-card {
+            background: var(--surface);
+            padding: 40px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-light);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .state-card ion-icon {
+            font-size: 3.5rem;
+            color: var(--accent-color);
+        }
+
+        .state-card.success ion-icon {
+            color: var(--success-color);
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid var(--border-light);
+            border-top: 5px solid var(--accent-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Recipe Details View */
+        .recipe-view {
+            display: none;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .claim-card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-light);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .claim-header {
+            padding: 32px;
+            background: linear-gradient(135deg, #fcece2 0%, #f7d2be 100%);
+            text-align: center;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .claim-header h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.8rem;
+            color: #52362b;
+            margin-bottom: 8px;
+        }
+
+        .claim-header p {
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        .claim-body {
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            align-items: center;
+        }
+
+        .action-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: var(--accent-color);
+            color: #ffffff;
+            text-decoration: none;
+            padding: 18px 32px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            box-shadow: 0 8px 20px rgba(224, 122, 95, 0.25);
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+
+        .action-button:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px rgba(224, 122, 95, 0.35);
+        }
+
+        .action-button ion-icon {
+            font-size: 1.4rem;
+        }
+
+        /* Apple Relay Alert */
+        .alert-box {
+            background: #fdf6f0;
+            border: 1px dashed var(--accent-color);
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            gap: 16px;
+            text-align: left;
+            font-size: 0.95rem;
+            color: #6d4b3b;
+        }
+
+        .alert-box ion-icon {
+            font-size: 1.5rem;
+            color: var(--accent-color);
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .alert-box h4 {
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: #52362b;
+        }
+
+        /* Recipe Preview Card */
+        .recipe-preview-card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-light);
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .recipe-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #fdf6f0 0%, #f0e6df 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            border: 1px solid var(--border-light);
+        }
+
+        .recipe-image ion-icon {
+            font-size: 4rem;
+        }
+
+        .recipe-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
+            color: var(--text-main);
+            margin-bottom: 8px;
+        }
+
+        .recipe-meta-tags {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border-light);
+            padding-bottom: 16px;
+        }
+
+        .meta-tag {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: #fdfaf7;
+            padding: 6px 12px;
+            border-radius: 20px;
+            border: 1px solid var(--border-light);
+        }
+
+        .meta-tag ion-icon {
+            font-size: 1.1rem;
+            color: var(--accent-color);
+        }
+
+        .recipe-section {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .recipe-section h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.25rem;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 2px solid var(--accent-light);
+            padding-bottom: 6px;
+        }
+
+        .recipe-section h3 ion-icon {
+            color: var(--accent-color);
+        }
+
+        .ingredients-list {
+            list-style: none;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+
+        @media (min-width: 480px) {
+            .ingredients-list {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .ingredients-list li {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+        }
+
+        .ingredients-list li ion-icon {
+            color: var(--success-color);
+            flex-shrink: 0;
+        }
+
+        .instructions-list {
+            padding-left: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .instructions-list li {
+            font-size: 0.95rem;
+            padding-left: 8px;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 20px;
+            margin-bottom: 40px;
+        }
+
+        .footer a {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="logo-header">
+            <ion-icon name="nutrition"></ion-icon>
+            Family Meal Plan
+        </div>
+
+        <!-- 1. LOADING CARD -->
+        <div id="loading-card" class="state-card">
+            <div class="spinner"></div>
+            <h2>Fetching shared recipe...</h2>
+            <p>Please wait while we connect securely to our database.</p>
+        </div>
+
+        <!-- 2. ERROR CARD -->
+        <div id="error-card" class="state-card" style="display: none;">
+            <ion-icon name="alert-circle-outline"></ion-icon>
+            <h2 id="error-title">Recipe not found</h2>
+            <p id="error-desc">This sharing link might be invalid, or the recipe may have been deleted by the owner.</p>
+        </div>
+
+        <!-- 3. SUCCESS / CLAIM VIEW -->
+        <div id="recipe-view" class="recipe-view">
+            <!-- Redirect CTA Card -->
+            <div class="claim-card">
+                <div class="claim-header">
+                    <h1 id="shared-header-title">A Recipe is Waiting For You!</h1>
+                    <p id="shared-header-desc">Your friend has shared a private recipe.</p>
+                </div>
+                <div class="claim-body">
+                    <button id="claim-button" class="action-button">
+                        <ion-icon name="cloud-download-outline"></ion-icon>
+                        <span>Download FMP with your new Recipe already loaded</span>
+                    </button>
+                    
+                    <div class="alert-box">
+                        <ion-icon name="information-circle-outline"></ion-icon>
+                        <div>
+                            <h4>Using Apple "Hide My Email"?</h4>
+                            If you sign up using your private Apple ID, the automatic recipe delivery won't match your registration email. To claim your recipe anyway, just <strong>tap this claim link again</strong> after installing the app and logging in!
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recipe Details Preview -->
+            <div class="recipe-preview-card">
+                <div id="recipe-img-container">
+                    <div class="recipe-image"><ion-icon name="restaurant-outline"></ion-icon></div>
+                </div>
+                
+                <div>
+                    <h2 id="recipe-name" class="recipe-title">Loading Preview...</h2>
+                    <div class="recipe-meta-tags">
+                        <div class="meta-tag">
+                            <ion-icon name="time-outline"></ion-icon>
+                            <span id="recipe-time">-- mins</span>
+                        </div>
+                        <div class="meta-tag">
+                            <ion-icon name="flame-outline"></ion-icon>
+                            <span id="recipe-cals">-- calories</span>
+                        </div>
+                        <div class="meta-tag" id="recipe-type-tag">
+                            <ion-icon name="restaurant-outline"></ion-icon>
+                            <span id="recipe-type">dinner</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="recipe-section" id="section-ingredients">
+                    <h3><ion-icon name="leaf-outline"></ion-icon> Ingredients</h3>
+                    <ul id="ingredients-list" class="ingredients-list">
+                        <li>Loading ingredients...</li>
+                    </ul>
+                </div>
+
+                <div class="recipe-section" id="section-instructions">
+                    <h3><ion-icon name="list-outline"></ion-icon> Instructions</h3>
+                    <ol id="instructions-list" class="instructions-list">
+                        <li>Loading instructions...</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>&copy; 2026 Family Meal Plan. All rights reserved.</p>
+            <p><a href="index.html">Back to Homepage</a> • <a href="privacy.html">Privacy Policy</a></p>
+        </div>
+    </div>
+
+    <script>
+        const db = window.dbClient; // Instantiated from admin-portal/supabaseClient.js
+
+        const loadingCard = document.getElementById('loading-card');
+        const errorCard = document.getElementById('error-card');
+        const errorTitle = document.getElementById('error-title');
+        const errorDesc = document.getElementById('error-desc');
+        const recipeView = document.getElementById('recipe-view');
+
+        const recipeName = document.getElementById('recipe-name');
+        const recipeTime = document.getElementById('recipe-time');
+        const recipeCals = document.getElementById('recipe-cals');
+        const recipeType = document.getElementById('recipe-type');
+        const ingredientsList = document.getElementById('ingredients-list');
+        const instructionsList = document.getElementById('instructions-list');
+        const recipeImgContainer = document.getElementById('recipe-img-container');
+        const claimBtn = document.getElementById('claim-button');
+        const sharedHeaderDesc = document.getElementById('shared-header-desc');
+
+        // Extract token from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const token = urlParams.get('token');
+
+        // App redirect destinations
+        const appStoreUrl = 'https://apps.apple.com/us/app/family-meal-plan-app/id6770301743';
+        const playStoreUrl = 'https://play.google.com/store/apps/details?id=com.ericdenson.familymealplanmobile';
+        const appCustomScheme = `familymealplanapp://claim-recipe?token=${token}`;
+
+        async function fetchRecipeDetails() {
+            if (!token) {
+                showError("No link token found", "This link is missing a share token. Please check that you clicked the full URL sent to your email.");
+                return;
+            }
+
+            try {
+                // Fetch share record
+                const { data, error } = await db
+                    .from('recipe_shares')
+                    .select('recipe_snapshot, friend_email, claimed_by_user_id')
+                    .eq('token', token)
+                    .single();
+
+                if (error || !data) {
+                    throw new Error("Recipe link could not be found or has expired.");
+                }
+
+                const snapshot = data.recipe_snapshot;
+                
+                // Set Header
+                sharedHeaderDesc.innerText = `A private recipe was shared with ${data.friend_email}`;
+
+                // Populate recipe title
+                recipeName.innerText = snapshot.title || "Unnamed Recipe";
+
+                // Populate meta tags
+                recipeTime.innerText = snapshot.prep_time_minutes ? `${snapshot.prep_time_minutes} mins` : "-- mins";
+                recipeCals.innerText = snapshot.calories_per_serving ? `${snapshot.calories_per_serving} calories` : "-- cals";
+                recipeType.innerText = snapshot.meal_type || "dinner";
+
+                // Image display
+                if (snapshot.image_url) {
+                    recipeImgContainer.innerHTML = `<img src="${snapshot.image_url}" alt="${snapshot.title}" class="recipe-image">`;
+                } else {
+                    recipeImgContainer.innerHTML = `<div class="recipe-image"><ion-icon name="restaurant-outline"></ion-icon></div>`;
+                }
+
+                // Ingredients
+                ingredientsList.innerHTML = '';
+                const ingredients = snapshot.recipe_ingredients || [];
+                if (ingredients.length > 0) {
+                    ingredients.forEach(i => {
+                        const li = document.createElement('li');
+                        li.innerHTML = `<ion-icon name="checkmark-circle-outline"></ion-icon> <span>${i.ingredient_name}</span>`;
+                        ingredientsList.appendChild(li);
+                    });
+                } else {
+                    ingredientsList.innerHTML = '<li>No ingredients listed.</li>';
+                }
+
+                // Instructions
+                instructionsList.innerHTML = '';
+                const rawInstructions = snapshot.instructions || '';
+                const steps = rawInstructions.split('\n').map(s => s.trim()).filter(s => s.length > 0);
+                
+                if (steps.length > 0) {
+                    steps.forEach(step => {
+                        const li = document.createElement('li');
+                        li.innerText = step;
+                        instructionsList.appendChild(li);
+                    });
+                } else {
+                    instructionsList.innerHTML = '<li>No instructions provided.</li>';
+                }
+
+                // Show recipe view, hide loader
+                loadingCard.style.display = 'none';
+                recipeView.style.display = 'flex';
+
+            } catch (err) {
+                showError("Recipe Not Found", err.message || "We could not find the recipe share link in our system.");
+            }
+        }
+
+        function showError(title, desc) {
+            loadingCard.style.display = 'none';
+            errorCard.style.display = 'flex';
+            errorTitle.innerText = title;
+            errorDesc.innerText = desc;
+        }
+
+        // Trigger App Redirect
+        function handleClaimRedirect() {
+            if (!token) return;
+
+            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+            const isAndroid = /Android/.test(navigator.userAgent);
+
+            // Attempt to deep link into the mobile app if installed
+            window.location.href = appCustomScheme;
+
+            // Set up fallback after a short delay
+            setTimeout(() => {
+                // Check if user is still on this webpage (meaning the deep link failed to open the app)
+                if (document.hidden || document.webkitHidden) {
+                    return; // Page became hidden, so app successfully opened!
+                }
+                
+                // Redirect to appropriate app store
+                if (isIOS) {
+                    window.location.href = appStoreUrl;
+                } else if (isAndroid) {
+                    window.location.href = playStoreUrl;
+                } else {
+                    // Desktop or other: Show options or direct to Play Store
+                    alert("This link is designed to be opened on your mobile phone to save the recipe into the app!");
+                    window.open(playStoreUrl, '_blank');
+                }
+            }, 1800);
+        }
+
+        claimBtn.addEventListener('click', handleClaimRedirect);
+
+        // Run on load
+        fetchRecipeDetails();
+    </script>
+</body>
+</html>
