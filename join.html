@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>You're Invited | Family Meal Plan</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@700;900&display=swap" rel="stylesheet">
+    <!-- Ionicons -->
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <!-- Core Style Sheet -->
+    <link rel="stylesheet" href="style.css?v=1.0.1">
+
+    <style>
+        .join-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .join-card {
+            background: var(--white);
+            border-radius: 32px;
+            padding: 50px 40px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(46, 139, 87, 0.15);
+            text-align: center;
+            z-index: 2;
+            position: relative;
+        }
+
+        .join-icon {
+            font-size: 64px;
+            color: var(--primary-emerald);
+            margin-bottom: 24px;
+            animation: pulse 2.5s infinite ease-in-out;
+        }
+
+        .join-card h1 {
+            font-size: 36px;
+            font-weight: 900;
+            color: var(--dark-text);
+            margin-bottom: 12px;
+        }
+
+        .join-card p.intro {
+            font-size: 16px;
+            color: var(--light-text);
+            line-height: 1.6;
+            margin-bottom: 32px;
+        }
+
+        .code-box {
+            background-color: var(--mint-bg);
+            border: 2px dashed rgba(46, 139, 87, 0.3);
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 32px;
+            position: relative;
+        }
+
+        .code-label {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--primary-emerald);
+            margin-bottom: 8px;
+        }
+
+        .code-value {
+            font-family: 'Outfit', sans-serif;
+            font-size: 32px;
+            font-weight: 900;
+            color: var(--dark-text);
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+        }
+
+        .copy-button {
+            background-color: var(--white);
+            border: 2px solid var(--primary-emerald);
+            color: var(--primary-emerald);
+            padding: 10px 24px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .copy-button:hover {
+            background-color: var(--primary-emerald);
+            color: var(--white);
+            transform: translateY(-1px);
+        }
+
+        .download-instructions {
+            font-size: 14px;
+            color: var(--light-text);
+            line-height: 1.5;
+            margin-bottom: 32px;
+        }
+
+        .join-badges {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .join-badges img {
+            height: 50px;
+            width: auto;
+            transition: transform 0.2s ease;
+        }
+
+        .join-badges img:hover {
+            transform: scale(1.05);
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="join-container">
+        <!-- Reusing Background Blobs for Design Consistency -->
+        <div class="blob-1"></div>
+        <div class="blob-2"></div>
+
+        <div class="join-card">
+            <ion-icon name="gift-outline" class="join-icon"></ion-icon>
+            <h1>You're Invited!</h1>
+            <p class="intro">A friend has gifted you an extended VIP Free Trial of <strong>Family Meal Plan</strong> to help automate dinners and save hours every week.</p>
+
+            <div class="code-box">
+                <div class="code-label">Your Invite Code</div>
+                <div class="code-value" id="referral-code">CRYP-6535</div>
+                <button class="copy-button" id="copy-btn">
+                    <ion-icon name="copy-outline"></ion-icon>
+                    <span>Copy Code</span>
+                </button>
+            </div>
+
+            <p class="download-instructions">
+                Copy the code above, download the app below, and enter it during signup or in your profile to unlock your extended trial!
+            </p>
+
+            <div class="join-badges">
+                <a id="app-store-link" target="_blank" rel="noopener noreferrer">
+                    <img src="assets/app-store-badge.svg" alt="Download on the App Store">
+                </a>
+                <a id="google-play-link" target="_blank" rel="noopener noreferrer">
+                    <img src="assets/google-play-badge.svg" alt="Get it on Google Play">
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Referral Code Capture Logic -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const code = urlParams.get('ref') || 'CRYP-6535';
+
+            // Update displayed code
+            const codeValueEl = document.getElementById('referral-code');
+            if (codeValueEl) {
+                codeValueEl.textContent = code;
+            }
+
+            // Copy Code functionality
+            const copyBtn = document.getElementById('copy-btn');
+            if (copyBtn) {
+                copyBtn.addEventListener('click', () => {
+                    navigator.clipboard.writeText(code).then(() => {
+                        const btnText = copyBtn.querySelector('span');
+                        btnText.textContent = 'Copied!';
+                        copyBtn.style.backgroundColor = 'var(--primary-emerald)';
+                        copyBtn.style.color = 'var(--white)';
+                        
+                        setTimeout(() => {
+                            btnText.textContent = 'Copy Code';
+                            copyBtn.style.backgroundColor = '';
+                            copyBtn.style.color = '';
+                        }, 2000);
+                    }).catch(err => {
+                        console.error('Failed to copy text: ', err);
+                    });
+                });
+            }
+
+            // Platform redirection configurations
+            const iosLink = 'https://apps.apple.com/us/app/family-meal-plan-app/id6770301743';
+            const androidLink = 'https://play.google.com/store/apps/details?id=com.ericdenson.familymealplanmobile';
+
+            const appStoreBtn = document.getElementById('app-store-link');
+            const playStoreBtn = document.getElementById('google-play-link');
+
+            if (appStoreBtn) appStoreBtn.setAttribute('href', iosLink);
+            if (playStoreBtn) playStoreBtn.setAttribute('href', androidLink);
+        });
+    </script>
+</body>
+</html>
