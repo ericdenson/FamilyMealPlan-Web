@@ -35,6 +35,9 @@
             <li><a href="#checkout">Smart Shopping</a></li>
         </ul>
         <a href="#download" class="cta-button" id="trigger-nav-download">Get the App</a>
+        <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle Navigation Menu">
+            <ion-icon name="menu-outline"></ion-icon>
+        </button>
     </nav>
 
     <!-- Vibrant Hero Section -->
@@ -298,6 +301,31 @@
 
             if (navBtn) navBtn.addEventListener('click', handleGeneralDownload);
             if (heroBtn) heroBtn.addEventListener('click', handleGeneralDownload);
+
+            // Mobile Menu Toggle
+            const menuToggle = document.getElementById('mobile-menu-toggle');
+            const navLinks = document.querySelector('.nav-links');
+            const menuIcon = menuToggle ? menuToggle.querySelector('ion-icon') : null;
+
+            if (menuToggle && navLinks && menuIcon) {
+                menuToggle.addEventListener('click', () => {
+                    navLinks.classList.toggle('mobile-active');
+                    if (navLinks.classList.contains('mobile-active')) {
+                        menuIcon.setAttribute('name', 'close-outline');
+                    } else {
+                        menuIcon.setAttribute('name', 'menu-outline');
+                    }
+                });
+
+                // Close menu when a link is clicked
+                const navLinkItems = document.querySelectorAll('.nav-links a');
+                navLinkItems.forEach(item => {
+                    item.addEventListener('click', () => {
+                        navLinks.classList.remove('mobile-active');
+                        menuIcon.setAttribute('name', 'menu-outline');
+                    });
+                });
+            }
 
             // Play video click behavior with overlay hiding
             const video = document.getElementById('walkthrough-video');

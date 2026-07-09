@@ -85,6 +85,10 @@ h1, h2, h3, h4 {
   box-shadow: 0 6px 20px rgba(107, 139, 114, 0.4);
 }
 
+.mobile-menu-toggle {
+  display: none;
+}
+
 /* Hero Section */
 .hero {
   padding: 160px 5% 100px;
@@ -859,12 +863,139 @@ footer {
 }
 
 @media (max-width: 768px) {
+  /* Navigation Bar & Mobile Menu */
+  .navbar {
+    padding: 15px 20px;
+  }
+  .navbar .cta-button {
+    display: none; /* Hide on mobile to keep navbar clean */
+  }
+  .mobile-menu-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    font-size: 30px;
+    color: var(--primary-emerald);
+    cursor: pointer;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    transition: background-color 0.2s;
+    z-index: 1100;
+  }
+  .mobile-menu-toggle:active {
+    background-color: var(--mint-bg);
+  }
+  .nav-links {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--glass-border);
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    padding: 30px 0;
+    display: none;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.05);
+  }
+  .nav-links.mobile-active {
+    display: flex;
+  }
+
+  /* General Paddings & Section Layouts */
+  section, 
+  .features, 
+  .visual-section, 
+  .video-section, 
+  .testimonials, 
+  .pricing {
+    padding: 60px 20px !important;
+  }
+  
+  /* Hero Section */
+  .hero {
+    padding-top: 110px !important;
+    padding-bottom: 40px !important;
+    flex-direction: column !important;
+    text-align: center !important;
+    gap: 40px !important;
+  }
+  .hero-text {
+    margin-bottom: 0 !important;
+  }
+  .hero h1 {
+    font-size: 32px !important;
+    line-height: 1.25 !important;
+  }
+  .hero p {
+    font-size: 16px !important;
+    margin-bottom: 24px !important;
+  }
+  .hero-buttons {
+    justify-content: center !important;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .hero-buttons a {
+    width: 100%;
+  }
+  .store-badges {
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 16px !important;
+  }
+  .hero-mockup {
+    max-width: 200px !important;
+  }
+
+  /* Headings */
+  h2 {
+    font-size: 28px !important;
+    line-height: 1.3 !important;
+  }
+  
+  /* Grid structures */
+  .grid-3,
   .testimonials-grid,
   .pricing-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
   }
+  
+  /* Visual sections */
+  section.visual-section[style] {
+    flex-direction: column !important;
+    text-align: center !important;
+    gap: 40px !important;
+  }
+  .visual-section {
+    flex-direction: column !important;
+    text-align: center !important;
+    gap: 40px !important;
+  }
+  .visual-image img {
+    max-width: 180px !important;
+  }
+
+  /* Video player */
+  .video-container {
+    border-radius: 20px !important;
+  }
+  
+  /* Pricing adjustments */
   .pricing-card.highlight {
     transform: none !important;
+  }
+  
+  /* Footer */
+  footer {
+    padding: 60px 20px 30px !important;
   }
 }
 
