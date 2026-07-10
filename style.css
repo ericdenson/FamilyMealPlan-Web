@@ -20,6 +20,8 @@ body {
   background-color: var(--mint-bg);
   color: var(--dark-text);
   overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 h1, h2, h3, h4 {
