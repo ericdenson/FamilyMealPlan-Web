@@ -862,7 +862,7 @@ footer {
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 968px) {
   /* General Typography Scale-Up for Readability */
   p {
     font-size: 17px !important;
