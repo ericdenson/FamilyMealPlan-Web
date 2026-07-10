@@ -865,8 +865,8 @@ footer {
 @media (max-width: 968px) {
   /* General Typography Scale-Up for Readability */
   p {
-    font-size: 19px !important;
-    line-height: 1.6 !important;
+    font-size: 20px !important;
+    line-height: 1.5 !important;
   }
   
   /* Navigation Bar & Mobile Menu */
@@ -923,7 +923,7 @@ footer {
     display: flex;
   }
   .nav-links li a {
-    font-size: 20px !important; /* Larger mobile menu links */
+    font-size: 22px !important; /* Larger mobile menu links */
   }
 
   /* General Paddings & Section Layouts */
@@ -948,14 +948,14 @@ footer {
     margin-bottom: 0 !important;
   }
   .hero-text .tagline {
-    font-size: 17px !important; /* Larger tagline */
+    font-size: 18px !important; /* Larger tagline */
   }
   .hero h1 {
-    font-size: 38px !important; /* Extremely bold, large mobile heading */
-    line-height: 1.2 !important;
+    font-size: 42px !important; /* Extremely bold, large mobile heading */
+    line-height: 1.15 !important;
   }
   .hero p {
-    font-size: 21px !important; /* Spacious hero intro text */
+    font-size: 22px !important; /* Spacious hero intro text */
     line-height: 1.6 !important;
     margin-bottom: 24px !important;
   }
@@ -977,8 +977,8 @@ footer {
     gap: 16px !important;
   }
   .hero-image {
-    margin-top: -120px !important; /* Aggressively pull up to crop out the empty space built into the JPEG canvas */
-    margin-bottom: -60px !important;
+    margin-top: -160px !important; /* Pull up further by -40px to completely close the transparent canvas padding */
+    margin-bottom: -90px !important;
     width: 100% !important;
     display: flex !important;
     justify-content: center !important;
@@ -990,7 +990,7 @@ footer {
 
   /* Headings */
   h2 {
-    font-size: 32px !important; /* Bolder section headings */
+    font-size: 34px !important; /* Bolder section headings */
     line-height: 1.3 !important;
   }
   
@@ -1003,7 +1003,7 @@ footer {
   }
 
   .feature-card h3 {
-    font-size: 21px !important;
+    font-size: 22px !important;
   }
   
   /* Visual sections */
@@ -1028,13 +1028,13 @@ footer {
   
   /* Testimonial details */
   .testimonial-card p {
-    font-size: 18px !important;
+    font-size: 20px !important;
   }
   .testimonial-author-info h4 {
-    font-size: 17px !important;
+    font-size: 19px !important;
   }
   .testimonial-author-info span {
-    font-size: 15px !important;
+    font-size: 17px !important;
   }
   
   /* Pricing adjustments */
@@ -1042,16 +1042,16 @@ footer {
     transform: none !important;
   }
   .pricing-lbl {
-    font-size: 18px !important;
+    font-size: 20px !important;
   }
   .pricing-price {
-    font-size: 36px !important;
+    font-size: 40px !important;
   }
   .pricing-text {
-    font-size: 16px !important;
+    font-size: 18px !important;
   }
   .pricing-note {
-    font-size: 17px !important;
+    font-size: 19px !important;
   }
   
   /* Footer */
@@ -1059,10 +1059,9 @@ footer {
     padding: 60px 20px 30px !important;
   }
   footer h2 {
-    font-size: 32px !important;
+    font-size: 34px !important;
   }
   .footer-bottom {
-    font-size: 15px !important;
+    font-size: 17px !important;
   }
 }
-
