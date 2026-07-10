@@ -865,7 +865,7 @@ footer {
 @media (max-width: 968px) {
   /* General Typography Scale-Up for Readability */
   p {
-    font-size: 17px !important;
+    font-size: 18px !important;
     line-height: 1.6 !important;
   }
   
@@ -923,7 +923,7 @@ footer {
     display: flex;
   }
   .nav-links li a {
-    font-size: 19px !important; /* Extremely readable mobile menu links */
+    font-size: 20px !important; /* Larger mobile menu links */
   }
 
   /* General Paddings & Section Layouts */
@@ -942,17 +942,20 @@ footer {
     padding-bottom: 40px !important;
     flex-direction: column !important;
     text-align: center !important;
-    gap: 40px !important;
+    gap: 20px !important; /* Smaller gap to pull mockup closer */
   }
   .hero-text {
     margin-bottom: 0 !important;
   }
+  .hero-text .tagline {
+    font-size: 16px !important; /* Larger tagline */
+  }
   .hero h1 {
-    font-size: 34px !important; /* Bolder mobile heading */
+    font-size: 34px !important; 
     line-height: 1.25 !important;
   }
   .hero p {
-    font-size: 18px !important; /* Prominent hero description */
+    font-size: 20px !important; /* Outstanding hero paragraph */
     line-height: 1.6 !important;
     margin-bottom: 24px !important;
   }
@@ -964,18 +967,22 @@ footer {
   .hero-buttons a {
     width: 100%;
   }
+  .social-proof-hero {
+    justify-content: center !important;
+    margin-top: 20px !important; /* Tighter spacing below buttons */
+  }
   .store-badges {
     flex-direction: column !important;
     align-items: center !important;
     gap: 16px !important;
   }
   .hero-mockup {
-    max-width: 200px !important;
+    max-width: 280px !important; /* Wider phone mockup */
   }
 
   /* Headings */
   h2 {
-    font-size: 30px !important; /* Larger section titles */
+    font-size: 30px !important; 
     line-height: 1.3 !important;
   }
   
@@ -988,7 +995,7 @@ footer {
   }
 
   .feature-card h3 {
-    font-size: 20px !important;
+    font-size: 21px !important;
   }
   
   /* Visual sections */
@@ -1011,12 +1018,32 @@ footer {
     border-radius: 20px !important;
   }
   
+  /* Testimonial details */
+  .testimonial-card p {
+    font-size: 18px !important;
+  }
+  .testimonial-author-info h4 {
+    font-size: 17px !important;
+  }
+  .testimonial-author-info span {
+    font-size: 15px !important;
+  }
+  
   /* Pricing adjustments */
   .pricing-card.highlight {
     transform: none !important;
   }
+  .pricing-lbl {
+    font-size: 18px !important;
+  }
   .pricing-price {
-    font-size: 34px !important;
+    font-size: 36px !important;
+  }
+  .pricing-text {
+    font-size: 16px !important;
+  }
+  .pricing-note {
+    font-size: 17px !important;
   }
   
   /* Footer */
@@ -1025,6 +1052,9 @@ footer {
   }
   footer h2 {
     font-size: 32px !important;
+  }
+  .footer-bottom {
+    font-size: 15px !important;
   }
 }
 
