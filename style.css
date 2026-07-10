@@ -865,7 +865,7 @@ footer {
 @media (max-width: 968px) {
   /* General Typography Scale-Up for Readability */
   p {
-    font-size: 18px !important;
+    font-size: 19px !important;
     line-height: 1.6 !important;
   }
   
@@ -942,20 +942,20 @@ footer {
     padding-bottom: 40px !important;
     flex-direction: column !important;
     text-align: center !important;
-    gap: 20px !important; /* Smaller gap to pull mockup closer */
+    gap: 10px !important; /* Extremely tight gap */
   }
   .hero-text {
     margin-bottom: 0 !important;
   }
   .hero-text .tagline {
-    font-size: 16px !important; /* Larger tagline */
+    font-size: 17px !important; /* Larger tagline */
   }
   .hero h1 {
-    font-size: 34px !important; 
-    line-height: 1.25 !important;
+    font-size: 38px !important; /* Extremely bold, large mobile heading */
+    line-height: 1.2 !important;
   }
   .hero p {
-    font-size: 20px !important; /* Outstanding hero paragraph */
+    font-size: 21px !important; /* Spacious hero intro text */
     line-height: 1.6 !important;
     margin-bottom: 24px !important;
   }
@@ -969,12 +969,15 @@ footer {
   }
   .social-proof-hero {
     justify-content: center !important;
-    margin-top: 20px !important; /* Tighter spacing below buttons */
+    margin-top: 16px !important; /* Tighter spacing below buttons */
   }
   .store-badges {
     flex-direction: column !important;
     align-items: center !important;
     gap: 16px !important;
+  }
+  .hero-image {
+    margin-top: -32px !important; /* Negative margin pulls phone up directly */
   }
   .hero-mockup {
     max-width: 280px !important; /* Wider phone mockup */
@@ -982,7 +985,7 @@ footer {
 
   /* Headings */
   h2 {
-    font-size: 30px !important; 
+    font-size: 32px !important; /* Bolder section headings */
     line-height: 1.3 !important;
   }
   
