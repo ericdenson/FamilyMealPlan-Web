@@ -977,10 +977,11 @@ footer {
     gap: 16px !important;
   }
   .hero-image {
-    margin-top: -32px !important; /* Negative margin pulls phone up directly */
+    margin-top: -80px !important; /* Large negative margin to close transparent/empty layout space */
   }
   .hero-mockup {
-    max-width: 280px !important; /* Wider phone mockup */
+    max-width: 340px !important; /* A LOT wider phone mockup */
+    width: 90% !important;
   }
 
   /* Headings */
