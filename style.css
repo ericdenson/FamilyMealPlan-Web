@@ -865,7 +865,7 @@ footer {
 @media (max-width: 968px) {
   /* General Typography Scale-Up for Readability */
   p {
-    font-size: 20px !important;
+    font-size: 21px !important;
     line-height: 1.5 !important;
   }
   
@@ -955,7 +955,7 @@ footer {
     line-height: 1.15 !important;
   }
   .hero p {
-    font-size: 22px !important; /* Spacious hero intro text */
+    font-size: 21px !important; /* Unified size with other paragraphs */
     line-height: 1.6 !important;
     margin-bottom: 24px !important;
   }
