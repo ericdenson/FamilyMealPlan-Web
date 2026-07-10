@@ -12,7 +12,7 @@
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <!-- Custom CSS with cache-busting -->
-    <link rel="stylesheet" href="style.css?v=1.0.2">
+    <link rel="stylesheet" href="style.css?v=1.0.4">
     
     <!-- Supabase Auth Interceptor for Password Reset -->
     <script>
@@ -36,7 +36,15 @@
         </ul>
         <a href="#download" class="cta-button" id="trigger-nav-download">Get the App</a>
         <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle Navigation Menu">
-            <ion-icon name="menu-outline"></ion-icon>
+            <svg class="icon-menu" viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+            <svg class="icon-close" viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
         </button>
     </nav>
 
@@ -305,16 +313,11 @@
             // Mobile Menu Toggle
             const menuToggle = document.getElementById('mobile-menu-toggle');
             const navLinks = document.querySelector('.nav-links');
-            const menuIcon = menuToggle ? menuToggle.querySelector('ion-icon') : null;
 
-            if (menuToggle && navLinks && menuIcon) {
+            if (menuToggle && navLinks) {
                 menuToggle.addEventListener('click', () => {
                     navLinks.classList.toggle('mobile-active');
-                    if (navLinks.classList.contains('mobile-active')) {
-                        menuIcon.setAttribute('name', 'close-outline');
-                    } else {
-                        menuIcon.setAttribute('name', 'menu-outline');
-                    }
+                    menuToggle.classList.toggle('menu-open');
                 });
 
                 // Close menu when a link is clicked
@@ -322,7 +325,7 @@
                 navLinkItems.forEach(item => {
                     item.addEventListener('click', () => {
                         navLinks.classList.remove('mobile-active');
-                        menuIcon.setAttribute('name', 'menu-outline');
+                        menuToggle.classList.remove('menu-open');
                     });
                 });
             }

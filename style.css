@@ -863,6 +863,12 @@ footer {
 }
 
 @media (max-width: 768px) {
+  /* General Typography Scale-Up for Readability */
+  p {
+    font-size: 17px !important;
+    line-height: 1.6 !important;
+  }
+  
   /* Navigation Bar & Mobile Menu */
   .navbar {
     padding: 15px 20px;
@@ -888,6 +894,15 @@ footer {
   .mobile-menu-toggle:active {
     background-color: var(--mint-bg);
   }
+  .mobile-menu-toggle .icon-close {
+    display: none;
+  }
+  .mobile-menu-toggle.menu-open .icon-menu {
+    display: none;
+  }
+  .mobile-menu-toggle.menu-open .icon-close {
+    display: block !important;
+  }
   .nav-links {
     position: absolute;
     top: 100%;
@@ -907,6 +922,9 @@ footer {
   .nav-links.mobile-active {
     display: flex;
   }
+  .nav-links li a {
+    font-size: 19px !important; /* Extremely readable mobile menu links */
+  }
 
   /* General Paddings & Section Layouts */
   section, 
@@ -920,7 +938,7 @@ footer {
   
   /* Hero Section */
   .hero {
-    padding-top: 110px !important;
+    padding-top: 115px !important;
     padding-bottom: 40px !important;
     flex-direction: column !important;
     text-align: center !important;
@@ -930,11 +948,12 @@ footer {
     margin-bottom: 0 !important;
   }
   .hero h1 {
-    font-size: 32px !important;
+    font-size: 34px !important; /* Bolder mobile heading */
     line-height: 1.25 !important;
   }
   .hero p {
-    font-size: 16px !important;
+    font-size: 18px !important; /* Prominent hero description */
+    line-height: 1.6 !important;
     margin-bottom: 24px !important;
   }
   .hero-buttons {
@@ -956,7 +975,7 @@ footer {
 
   /* Headings */
   h2 {
-    font-size: 28px !important;
+    font-size: 30px !important; /* Larger section titles */
     line-height: 1.3 !important;
   }
   
@@ -966,6 +985,10 @@ footer {
   .pricing-grid {
     grid-template-columns: 1fr !important;
     gap: 24px !important;
+  }
+
+  .feature-card h3 {
+    font-size: 20px !important;
   }
   
   /* Visual sections */
@@ -992,10 +1015,16 @@ footer {
   .pricing-card.highlight {
     transform: none !important;
   }
+  .pricing-price {
+    font-size: 34px !important;
+  }
   
   /* Footer */
   footer {
     padding: 60px 20px 30px !important;
+  }
+  footer h2 {
+    font-size: 32px !important;
   }
 }
 
