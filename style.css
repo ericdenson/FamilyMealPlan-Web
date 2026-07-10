@@ -977,11 +977,15 @@ footer {
     gap: 16px !important;
   }
   .hero-image {
-    margin-top: -80px !important; /* Large negative margin to close transparent/empty layout space */
+    margin-top: -120px !important; /* Aggressively pull up to crop out the empty space built into the JPEG canvas */
+    margin-bottom: -60px !important;
+    width: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
   }
   .hero-mockup {
-    max-width: 340px !important; /* A LOT wider phone mockup */
-    width: 90% !important;
+    width: 500px !important; /* Forces the phone mockup representation to render wide on mobile */
+    max-width: 150% !important;
   }
 
   /* Headings */
