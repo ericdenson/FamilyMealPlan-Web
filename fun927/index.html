@@ -239,14 +239,41 @@
         }
 
         .partner-logo {
-            height: 64px;
+            height: 72px;
             width: auto;
             object-fit: contain;
         }
 
+        .app-logo-text-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            height: 72px;
+        }
+
         .partner-logo.rounded {
+            height: 72px;
+            width: 72px;
             border-radius: 16px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
+
+        .vertical-text-stack {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+            text-align: left;
+        }
+
+        .vertical-text-stack span {
+            font-family: 'Outfit', sans-serif;
+            font-size: 13px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            line-height: 1;
+            color: var(--primary-emerald);
         }
 
         .connect-icon {
@@ -282,7 +309,15 @@
             <div class="logo-header-row">
                 <img src="/fun927/assets/fun927.png" alt="FUN 92.7" class="partner-logo">
                 <div class="connect-icon"><ion-icon name="add-outline"></ion-icon></div>
-                <img src="/fun927/assets/512icon.png" alt="Family Meal Plan" class="partner-logo rounded">
+                <div class="app-logo-text-wrapper">
+                    <img src="/fun927/assets/512icon.png" alt="Family Meal Plan" class="partner-logo rounded">
+                    <div class="vertical-text-stack">
+                        <span>Family</span>
+                        <span>Meal</span>
+                        <span>Plan</span>
+                        <span>App</span>
+                    </div>
+                </div>
             </div>
 
             <div class="radio-badge">
