@@ -1,0 +1,20 @@
+# robots.txt for Family Meal Plan
+
+User-agent: *
+Allow: /
+
+# Specifically allow AI Search and Chat bots to index public app pages
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+# Sitemap location
+Sitemap: https://www.familymealplanapp.com/sitemap.xml
