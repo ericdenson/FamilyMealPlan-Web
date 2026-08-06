@@ -856,6 +856,112 @@ footer {
   font-weight: 600;
 }
 
+/* Founder Section Styling */
+.founder-section {
+  padding: 100px 5%;
+  background-color: var(--white);
+  border-top: 1px solid rgba(107, 139, 114, 0.1);
+  display: flex;
+  justify-content: center;
+}
+
+.founder-container {
+  display: flex;
+  align-items: center;
+  gap: 60px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.founder-image-wrapper {
+  flex-shrink: 0;
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 6px solid var(--mint-bg);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+}
+
+.founder-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.founder-info {
+  flex: 1;
+}
+
+.founder-label {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--primary-emerald);
+  letter-spacing: 2px;
+  display: block;
+  margin-bottom: 12px;
+  font-family: 'Outfit', sans-serif;
+}
+
+.founder-info h2 {
+  font-size: 38px;
+  color: var(--dark-text);
+  margin-bottom: 20px;
+  line-height: 1.2;
+}
+
+.founder-info p {
+  color: var(--light-text);
+  font-size: 18px;
+  line-height: 1.7;
+  margin-bottom: 24px;
+}
+
+.founder-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  font-size: 15px;
+}
+
+.founder-name {
+  font-weight: 700;
+  color: var(--dark-text);
+}
+
+.founder-title {
+  color: var(--light-text);
+  display: flex;
+  align-items: center;
+}
+
+.founder-title::before {
+  content: '•';
+  margin-right: 16px;
+  color: #ccc;
+}
+
+.founder-linkedin {
+  color: #0a66c2;
+  text-decoration: none;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: opacity 0.2s;
+}
+
+.founder-linkedin:hover {
+  opacity: 0.8;
+}
+
+.founder-linkedin::before {
+  content: '•';
+  margin-right: 16px;
+  color: #ccc;
+}
+
 @media (max-width: 1024px) {
   .testimonials-grid,
   .pricing-grid {
@@ -1065,5 +1171,28 @@ footer {
   }
   .footer-bottom {
     font-size: 17px !important;
+  }
+
+  /* Founder Section Mobile Adjustments */
+  .founder-container {
+    flex-direction: column !important;
+    text-align: center !important;
+    gap: 30px !important;
+  }
+  
+  .founder-image-wrapper {
+    width: 220px !important;
+    height: 220px !important;
+  }
+  
+  .founder-meta {
+    flex-direction: column !important;
+    gap: 8px !important;
+    align-items: center !important;
+  }
+  
+  .founder-title::before,
+  .founder-linkedin::before {
+    display: none !important;
   }
 }
