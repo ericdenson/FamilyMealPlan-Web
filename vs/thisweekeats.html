@@ -1,6 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- HeyCatch Analytics -->
+    <script type="module">
+      import { analytics } from 'https://esm.sh/@heycatch/sdk@0.0.2';
+      analytics.init({
+        projectKey: 'hck_pk_6nHqAJ0HZk_RtMd2OrOtRC4Sv8XKET5h',
+        install: {
+          framework: 'web',
+          agent: 'antigravity'
+        }
+      });
+    </script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Family Meal Plan vs ThisWeekEats | Choose the Best Meal Planner</title>
@@ -17,15 +29,16 @@
 
     <!-- Premium Glassmorphism Navbar -->
     <nav class="navbar">
-        <div class="logo" onclick="window.location.href='../index.html'" style="cursor: pointer;">
-            <ion-icon name="nutrition"></ion-icon>
+        <a href="../index.html" class="logo" style="text-decoration: none;">
+            <img src="../assets/app_logo.png" alt="Family Meal Plan Calendar Icon Logo" style="height: 32px; width: 32px; border-radius: 6px;">
             Family Meal Plan
-        </div>
+        </a>
         <ul class="nav-links">
             <li><a href="../index.html#features">Features</a></li>
             <li><a href="../index.html#magic">Magic AI</a></li>
             <li><a href="../index.html#checkout">Smart Shopping</a></li>
             <li><a href="../index.html#pricing">Pricing</a></li>
+            <li><a href="../index.html#faq">FAQ</a></li>
             <li><a href="../best-meal-planner-for-picky-eaters.html">Picky Eaters</a></li>
         </ul>
         <a href="../index.html#download" class="cta-button">Get the App</a>
