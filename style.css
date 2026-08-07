@@ -569,20 +569,57 @@ footer {
 .social-proof-hero {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 16px;
   margin-top: 32px;
-  font-size: 15px;
-  color: var(--light-text);
+}
+
+.avatar-stack {
+  display: flex;
+  align-items: center;
+}
+
+.avatar-stack img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid var(--white);
+  margin-left: -12px;
+  object-fit: cover;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.avatar-stack img:first-child {
+  margin-left: 0;
+}
+
+.social-proof-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
 }
 
 .social-proof-hero .stars {
   color: var(--primary-gold);
   display: flex;
+  align-items: center;
   gap: 2px;
 }
 
 .social-proof-hero .stars ion-icon {
-  font-size: 20px;
+  font-size: 18px;
+}
+
+.rating-text {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--dark-text);
+  margin-left: 6px;
+}
+
+.proof-text {
+  font-size: 14px;
+  color: var(--light-text);
 }
 
 /* Video Section */
@@ -1319,8 +1356,15 @@ footer {
     width: 100%;
   }
   .social-proof-hero {
+    flex-direction: column !important;
+    gap: 12px !important;
     justify-content: center !important;
-    margin-top: 16px !important; /* Tighter spacing below buttons */
+    align-items: center !important;
+    text-align: center !important;
+    margin-top: 24px !important;
+  }
+  .social-proof-content {
+    align-items: center !important;
   }
   .store-badges {
     flex-direction: column !important;
