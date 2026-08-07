@@ -7,7 +7,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@700;900&family=Caveat:wght@400;700&display=swap" rel="stylesheet">
     <!-- Ionicons for strict branding alignment -->
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
@@ -19,6 +19,58 @@
         if (window.location.hash && window.location.hash.includes('type=recovery')) {
             window.location.href = 'reset-password.html' + window.location.hash;
         }
+    </script>
+
+    <!-- Structured Data: Organization & Product Schema -->
+    <script type="application/ld+json">
+    [
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Family Meal Plan",
+        "url": "https://www.familymealplanapp.com/",
+        "logo": "https://www.familymealplanapp.com/assets/groceries_aesthetic.png",
+        "founder": [
+          {
+            "@type": "Person",
+            "name": "Eric Denson"
+          },
+          {
+            "@type": "Person",
+            "name": "Deanna Denson"
+          }
+        ],
+        "sameAs": [
+          "https://www.linkedin.com/in/eric-denson-3b324473/",
+          "https://www.facebook.com/eric.denson.790",
+          "https://www.instagram.com/familymealplanapp/",
+          "https://www.tiktok.com/@FamilyMealPlanApp"
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Family Meal Plan",
+        "description": "The app that decides family dinner for you each morning — from meals your family already loves. Includes automatic diet filtering, photo recipe importing, and consolidated shopping lists.",
+        "applicationCategory": "LifestyleApplication",
+        "operatingSystem": "iOS, Android",
+        "offers": {
+          "@type": "AggregateOffer",
+          "priceCurrency": "USD",
+          "lowPrice": "5.99",
+          "highPrice": "64.99",
+          "offerCount": "4"
+        },
+        "downloadUrl": [
+          "https://apps.apple.com/us/app/family-meal-plan-app/id6770301743",
+          "https://play.google.com/store/apps/details?id=com.ericdenson.familymealplanmobile"
+        ],
+        "author": {
+          "@type": "Organization",
+          "name": "DEER Studios LLC"
+        }
+      }
+    ]
     </script>
 </head>
 <body>
@@ -60,7 +112,7 @@
             <p>Family Meal Plan is an intelligent weekly calendar designed for busy parents. Schedule your dinners in seconds, snap photos of your favorite family recipes to import them instantly, and automatically generate your organized grocery list. Dinner planning, simplified.</p>
             
             <div class="hero-buttons">
-                <a href="#download" class="btn-primary" id="trigger-hero-download">Download Free</a>
+                <a href="#download" class="btn-primary" id="trigger-hero-download">Get the App — Free 14-Day Trial</a>
                 <a href="#features" class="btn-secondary">See How It Works</a>
             </div>
             
@@ -78,7 +130,7 @@
 
         <div class="hero-image">
             <!-- Utilizing the generated App Mockup perfectly matched to modern dimensions -->
-            <img src="assets/iphone_3d_mockup.png" alt="Family Meal Plan Dashboard" class="hero-mockup">
+            <img src="assets/iphone_3d_mockup.png" alt="Family Meal Plan mobile dashboard showing a weekly dinner calendar with automatically decided and scheduled family-favorite recipes." class="hero-mockup">
         </div>
     </section>
 
@@ -119,7 +171,7 @@
     <!-- Visual Section 1: Weekly Schedule -->
     <section id="scheduling" class="visual-section" style="background: #fff; flex-direction: row-reverse;">
         <div class="visual-image" style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; align-items: center;">
-            <img src="assets/app_screenshot_dashboard.png" alt="Dynamic Weekly Schedule" style="max-width: 240px; border: 8px solid #f4f8f5; border-radius: 40px; box-shadow: 0 25px 50px rgba(0,0,0,0.15);">
+            <img src="assets/app_screenshot_dashboard.png" alt="Interactive weekly meal calendar scheduling daily family dinners with simple one-click swap and shuffle buttons." style="max-width: 240px; border: 8px solid #f4f8f5; border-radius: 40px; box-shadow: 0 25px 50px rgba(0,0,0,0.15);">
         </div>
         <div class="visual-text">
             <h2>Your entire week. Visualized.</h2>
@@ -129,8 +181,35 @@
 
     <!-- Visual Section 2: Magic Recipe Importer -->
     <section id="recipe-importer" class="visual-section">
-        <div class="visual-image" style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; align-items: center;">
-            <img src="assets/app_screenshot_recipe.png" alt="Recipe Details" style="max-width: 240px; border: 8px solid #fff; border-radius: 40px; box-shadow: 0 25px 50px rgba(0,0,0,0.15);">
+        <div class="visual-image before-after-container">
+            <!-- Before: CSS Handwritten Index Card -->
+            <div class="recipe-card-before-wrapper">
+                <span class="before-badge">Before (Handwritten)</span>
+                <div class="recipe-card-before">
+                    <div class="grease-stain stain-1"></div>
+                    <div class="grease-stain stain-2"></div>
+                    <h3>Grandma's Spaghetti</h3>
+                    <ul class="card-ingredients">
+                        <li>1 lb spaghetti</li>
+                        <li>4 cloves garlic, minced</li>
+                        <li>1 can crushed tomatoes</li>
+                        <li>2 tbsp olive oil</li>
+                        <li>Fresh basil & salt</li>
+                    </ul>
+                    <p class="card-directions">1. Heat oil, sauté garlic until golden. 2. Pour in tomatoes, simmer 15 mins. 3. Cook pasta, toss together. Top with basil.</p>
+                </div>
+            </div>
+            
+            <div class="scan-arrow">
+                <ion-icon name="arrow-forward-outline"></ion-icon>
+                <span>Scanned in 3s</span>
+            </div>
+
+            <!-- After: Digital App Screenshot -->
+            <div class="recipe-card-after-wrapper">
+                <span class="after-badge">After (In App)</span>
+                <img src="assets/app_screenshot_recipe.png" alt="Detailed recipe screen showing quick prep time, cook time, simple ingredients checklist, and clear step-by-step cooking instructions." style="max-width: 240px; border: 8px solid #fff; border-radius: 40px; box-shadow: 0 25px 50px rgba(0,0,0,0.15);">
+            </div>
         </div>
         <div class="visual-text">
             <h2>Snap a photo. Import instantly.</h2>
@@ -141,8 +220,8 @@
     <!-- Visual Section 3: Diet Preferences & Exclusions -->
     <section id="magic" class="visual-section" style="background: #fff; flex-direction: row-reverse;">
         <div class="visual-image" style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; align-items: center;">
-            <img src="assets/app_screenshot_diets.png" alt="Diet Preferences Selection" style="max-width: 240px; border: 8px solid #fff; border-radius: 40px; box-shadow: 0 25px 50px rgba(0,0,0,0.15);">
-            <img src="assets/app_screenshot_allergies.png" alt="Allergies & Dislikes Exclusions" style="max-width: 240px; border: 8px solid #fff; border-radius: 40px; box-shadow: 0 25px 50px rgba(0,0,0,0.15);">
+            <img src="assets/app_screenshot_diets.png" alt="Custom diet filter screen displaying selections for Gluten-Free, Keto, Vegetarian, Vegan, Dairy-Free, Low Carb, and Kid-Friendly options." style="max-width: 240px; border: 8px solid #fff; border-radius: 40px; box-shadow: 0 25px 50px rgba(0,0,0,0.15);">
+            <img src="assets/app_screenshot_allergies.png" alt="Food exclusions panel showing exclusions for peanuts, tree nuts, shellfish, and custom dislikes to automatically filter recipe results." style="max-width: 240px; border: 8px solid #fff; border-radius: 40px; box-shadow: 0 25px 50px rgba(0,0,0,0.15);">
         </div>
         <div class="visual-text">
             <h2>16 Diet Profiles. Diet variety handled.</h2>
@@ -154,8 +233,8 @@
     <!-- Visual Section 4: Smart Shopping List -->
     <section id="shopping-list-section" class="visual-section">
         <div class="visual-image" style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; align-items: center;">
-            <img src="assets/app_screenshot_shopping_list.png" alt="Smart Shopping List Checklist" style="max-width: 240px; border: 8px solid #f4f8f5; border-radius: 40px; box-shadow: 0 25px 50px rgba(0,0,0,0.15);">
-            <img src="assets/app_screenshot_shop_online.png" alt="Shop Online Instantly Options" style="max-width: 240px; border: 8px solid #f4f8f5; border-radius: 40px; box-shadow: 0 25px 50px rgba(0,0,0,0.15);">
+            <img src="assets/app_screenshot_shopping_list.png" alt="Consolidated smart shopping list automatically organized by store sections like Produce, Meat & Seafood, Dairy, and Pantry." style="max-width: 240px; border: 8px solid #f4f8f5; border-radius: 40px; box-shadow: 0 25px 50px rgba(0,0,0,0.15);">
+            <img src="assets/app_screenshot_shop_online.png" alt="Instant online grocery shopping integration with one-click checkout links for Walmart, Kroger, Instacart, and target local stores." style="max-width: 240px; border: 8px solid #f4f8f5; border-radius: 40px; box-shadow: 0 25px 50px rgba(0,0,0,0.15);">
         </div>
         <div class="visual-text">
             <h2>Smart consolidated shopping lists.</h2>
@@ -287,7 +366,8 @@
         </div>
         <div class="footer-bottom" style="display:flex; flex-direction:column; align-items:center; gap:12px;">
             <div>&copy; 2026 DEER Studios LLC. No recipes harmed in the making of this software.</div>
-            <div style="font-size: 0.8rem; display:flex; gap:16px;">
+            <div style="font-size: 0.8rem; display:flex; gap:16px; flex-wrap: wrap;">
+                <a href="changelog.html" style="color: #889eb2; text-decoration: none;">Changelog</a>
                 <a href="privacy.html" style="color: #889eb2; text-decoration: none;">Privacy Policy</a>
                 <a href="terms.html" style="color: #889eb2; text-decoration: none;">Terms of Service</a>
             </div>

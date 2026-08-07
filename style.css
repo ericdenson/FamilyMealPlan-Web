@@ -1005,6 +1005,261 @@ footer {
   transform: translateY(-2px);
 }
 
+/* FAQ Section Styling */
+.faq-section {
+  padding: 100px 5%;
+  background-color: var(--mint-bg);
+  text-align: center;
+  border-top: 1px solid rgba(107, 139, 114, 0.1);
+}
+
+.faq-section h2 {
+  font-size: 42px;
+  margin-bottom: 20px;
+}
+
+.faq-intro {
+  color: var(--light-text);
+  font-size: 18px;
+  max-width: 600px;
+  margin: 0 auto 60px;
+}
+
+.faq-container {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.faq-item {
+  background: var(--white);
+  border-radius: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(107, 139, 114, 0.08);
+  overflow: hidden;
+  transition: box-shadow 0.3s ease;
+}
+
+.faq-item.active {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  border-color: rgba(46, 139, 87, 0.2);
+}
+
+.faq-question {
+  width: 100%;
+  padding: 24px 30px;
+  background: none;
+  border: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  text-align: left;
+  font-family: 'Outfit', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--dark-text);
+  transition: color 0.2s ease;
+}
+
+.faq-question:hover {
+  color: var(--primary-emerald);
+}
+
+.faq-chevron {
+  font-size: 20px;
+  transition: transform 0.3s ease;
+  color: var(--light-text);
+}
+
+.faq-item.active .faq-chevron {
+  transform: rotate(180deg);
+  color: var(--primary-emerald);
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s cubic-bezier(0.16, 1, 0.3, 1), padding 0.3s ease;
+  padding: 0 30px;
+}
+
+.faq-item.active .faq-answer {
+  max-height: 300px; /* Safe upper bound for text content height */
+  padding-bottom: 24px;
+}
+
+.faq-answer p {
+  color: var(--light-text);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* Before/After Recipe Scan Container */
+.before-after-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  position: relative;
+  flex-wrap: wrap;
+}
+
+.recipe-card-before-wrapper,
+.recipe-card-after-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.before-badge,
+.after-badge {
+  font-family: 'Outfit', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 6px 12px;
+  border-radius: 20px;
+}
+
+.before-badge {
+  background-color: #f1ebd9;
+  color: #8c7355;
+}
+
+.after-badge {
+  background-color: var(--mint-bg);
+  color: var(--primary-emerald);
+}
+
+/* CSS Lined Index Card Styling */
+.recipe-card-before {
+  width: 240px;
+  height: 330px;
+  background-color: #fdfcf7;
+  border-radius: 12px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.06);
+  border: 1px solid rgba(0,0,0,0.05);
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+  font-family: 'Caveat', cursive;
+  font-size: 19px;
+  color: #2b3a4a;
+  transform: rotate(-3deg);
+  background-image: 
+    repeating-linear-gradient(rgba(0,0,0,0) 0px, rgba(0,0,0,0) 27px, #e4edf3 28px);
+  background-size: 100% 28px;
+  line-height: 28px;
+}
+
+.recipe-card-before::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 45px;
+  width: 1px;
+  background-color: #f9c0c0;
+}
+
+/* Grease Stains using Blur Filters */
+.grease-stain {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(160, 110, 50, 0.15) 0%, rgba(160, 110, 50, 0.05) 50%, rgba(160, 110, 50, 0) 100%);
+  filter: blur(4px);
+  pointer-events: none;
+}
+
+.stain-1 {
+  width: 60px;
+  height: 50px;
+  top: 10px;
+  right: -10px;
+  transform: rotate(30deg);
+}
+
+.stain-2 {
+  width: 80px;
+  height: 70px;
+  bottom: 30px;
+  left: -20px;
+  transform: rotate(-15deg);
+}
+
+.recipe-card-before h3 {
+  font-family: 'Caveat', cursive;
+  font-size: 26px;
+  font-weight: 700;
+  margin: 0 0 12px 25px;
+  color: #1a4268;
+  line-height: 28px;
+}
+
+.card-ingredients {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 15px 25px;
+}
+
+.card-ingredients li {
+  margin-bottom: 0;
+}
+
+.card-ingredients li::before {
+  content: '- ';
+}
+
+.card-directions {
+  margin: 0 0 0 25px;
+  font-size: 18px;
+  line-height: 24px;
+}
+
+/* Scan Arrow Indicator */
+.scan-arrow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  color: var(--primary-emerald);
+  animation: pulse-horizontal 2s infinite ease-in-out;
+}
+
+.scan-arrow ion-icon {
+  font-size: 36px;
+}
+
+.scan-arrow span {
+  font-family: 'Outfit', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+@keyframes pulse-horizontal {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(6px);
+  }
+}
+
+@keyframes pulse-vertical {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(6px);
+  }
+}
+
 @media (max-width: 1024px) {
   .testimonials-grid,
   .pricing-grid {
@@ -1241,5 +1496,36 @@ footer {
   }
   .founder-socials {
     margin-left: 0 !important;
+  }
+
+  /* FAQ Mobile Overrides */
+  .faq-section h2 {
+    font-size: 34px !important;
+  }
+  
+  .faq-question {
+    padding: 18px 20px !important;
+    font-size: 16px !important;
+  }
+  
+  .faq-answer {
+    padding: 0 20px !important;
+  }
+  
+  .faq-item.active .faq-answer {
+    padding-bottom: 18px !important;
+  }
+  
+  .faq-answer p {
+    font-size: 15px !important;
+  }
+
+  /* Before/After Scan Mobile Overrides */
+  .scan-arrow ion-icon {
+    transform: rotate(90deg) !important;
+  }
+  .scan-arrow {
+    animation: pulse-vertical 2s infinite ease-in-out !important;
+    margin: 10px 0 !important;
   }
 }

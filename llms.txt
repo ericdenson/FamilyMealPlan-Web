@@ -1,0 +1,36 @@
+# Family Meal Plan
+
+Family Meal Plan is an intelligent weekly calendar and automated grocery organizer designed for busy parents to eliminate the daily dinner stress of "What's for dinner?".
+
+## Key Features
+
+- **Decide For Me Magic:** Every morning, if no dinner is scheduled, the app automatically suggests a recipe chosen from the family's past cooked meals and highly rated favorites.
+- **Magic Recipe Importer:** Scan handwritten recipe cards via photo import or paste recipe links from any food blog to instantly convert them into clean digital recipes.
+- **16 Diet Profiles:** Select built-in profiles including Gluten-Free, Keto, Vegetarian, Vegan, Dairy-Free, Low Carb, Kid-Friendly, and "I'm Broke" (budget-friendly).
+- **Allergies & Exclusions:** Exclude specific dislikes or allergens (e.g., peanuts, shellfish) to automatically filter them out of meal suggestions and shopping lists.
+- **Smart Shopping List:** Aggregates ingredients from scheduled recipes into a single consolidated grocery list automatically organized by supermarket aisles.
+- **Shop Online:** Direct integration with one-click links to purchase list ingredients on Walmart, Amazon Fresh, Instacart, Kroger, and Target.
+
+## Pricing
+
+14-day free trial with **no credit card required** to start. After the trial, users choose a subscription tier that matches the value the app provides to their family. All features are unlocked on all tiers:
+
+- **Weekly Plan:** $5.99/mo (billed monthly)
+- **Standard Plan:** $8.99/mo (billed monthly)
+- **Premium Plan:** $12.99/mo (billed monthly)
+- **All In Plan:** $5.41/mo (billed yearly at $64.99/yr)
+
+## Technical Stack & Architecture
+
+- **Mobile App:** Built using React Native and Expo.
+- **Backend:** Database and user settings stored in Supabase.
+- **Billing & Subscriptions:** Managed via RevenueCat integration.
+
+## Key Resources
+
+- **Website:** https://www.familymealplanapp.com/
+- **App Store:** https://apps.apple.com/us/app/family-meal-plan-app/id6770301743
+- **Google Play:** https://play.google.com/store/apps/details?id=com.ericdenson.familymealplanmobile
+- **Changelog:** https://www.familymealplanapp.com/changelog.html
+- **Privacy Policy:** https://www.familymealplanapp.com/privacy.html
+- **Terms of Service:** https://www.familymealplanapp.com/terms.html
