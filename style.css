@@ -827,6 +827,29 @@ footer {
   box-shadow: 0 4px 10px rgba(46, 139, 87, 0.2);
 }
 
+.pricing-badge.discount {
+  background-color: var(--primary-gold);
+  color: var(--dark-text);
+  box-shadow: 0 4px 10px rgba(245, 203, 92, 0.3);
+}
+
+.pricing-card.yearly-deal {
+  border: 2px solid var(--primary-gold);
+  box-shadow: 0 10px 25px rgba(245, 203, 92, 0.05);
+}
+
+.pricing-card.yearly-deal:hover {
+  box-shadow: 0 25px 45px rgba(245, 203, 92, 0.15);
+}
+
+.pricing-billing-detail {
+  font-size: 13px;
+  color: var(--light-text);
+  font-weight: 600;
+  margin-top: -6px;
+  margin-bottom: 12px;
+}
+
 .pricing-price {
   font-size: 38px;
   font-weight: 900;
@@ -1160,7 +1183,8 @@ footer {
   }
   
   /* Pricing adjustments */
-  .pricing-card.highlight {
+  .pricing-card.highlight,
+  .pricing-card.yearly-deal {
     transform: none !important;
   }
   .pricing-lbl {
