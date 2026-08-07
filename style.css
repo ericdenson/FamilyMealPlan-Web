@@ -1135,89 +1135,25 @@ footer {
   color: var(--primary-emerald);
 }
 
-/* CSS Lined Index Card Styling */
-.recipe-card-before {
-  width: 240px;
-  height: 330px;
-  background-color: #fdfcf7;
+/* Handwritten Image Before State */
+.recipe-card-before-img-container {
+  width: 320px;
+  height: 200px;
   border-radius: 12px;
+  overflow: hidden;
   box-shadow: 0 15px 35px rgba(0,0,0,0.06);
   border: 1px solid rgba(0,0,0,0.05);
-  padding: 24px;
-  position: relative;
-  overflow: hidden;
-  font-family: 'Caveat', cursive;
-  font-size: 19px;
-  color: #2b3a4a;
   transform: rotate(-3deg);
-  background-image: 
-    repeating-linear-gradient(rgba(0,0,0,0) 0px, rgba(0,0,0,0) 27px, #e4edf3 28px);
-  background-size: 100% 28px;
-  line-height: 28px;
+  background-color: #fdfcf7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.recipe-card-before::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 45px;
-  width: 1px;
-  background-color: #f9c0c0;
-}
-
-/* Grease Stains using Blur Filters */
-.grease-stain {
-  position: absolute;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(160, 110, 50, 0.15) 0%, rgba(160, 110, 50, 0.05) 50%, rgba(160, 110, 50, 0) 100%);
-  filter: blur(4px);
-  pointer-events: none;
-}
-
-.stain-1 {
-  width: 60px;
-  height: 50px;
-  top: 10px;
-  right: -10px;
-  transform: rotate(30deg);
-}
-
-.stain-2 {
-  width: 80px;
-  height: 70px;
-  bottom: 30px;
-  left: -20px;
-  transform: rotate(-15deg);
-}
-
-.recipe-card-before h3 {
-  font-family: 'Caveat', cursive;
-  font-size: 26px;
-  font-weight: 700;
-  margin: 0 0 12px 25px;
-  color: #1a4268;
-  line-height: 28px;
-}
-
-.card-ingredients {
-  list-style: none;
-  padding: 0;
-  margin: 0 0 15px 25px;
-}
-
-.card-ingredients li {
-  margin-bottom: 0;
-}
-
-.card-ingredients li::before {
-  content: '- ';
-}
-
-.card-directions {
-  margin: 0 0 0 25px;
-  font-size: 18px;
-  line-height: 24px;
+.recipe-handwritten-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 /* Scan Arrow Indicator */
