@@ -37,6 +37,18 @@
       <priority>0.8</priority>
    </url>
    <url>
+      <loc>https://www.familymealplanapp.com/vs/numyum.html</loc>
+      <lastmod>2026-08-07</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://www.familymealplanapp.com/vs/mealime.html</loc>
+      <lastmod>2026-08-07</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
       <loc>https://www.familymealplanapp.com/best-meal-planner-for-picky-eaters.html</loc>
       <lastmod>2026-08-07</lastmod>
       <changefreq>weekly</changefreq>

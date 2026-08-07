@@ -258,6 +258,14 @@ h1, h2, h3, h4 {
   margin: 0 auto;
 }
 
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 40px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
 .feature-card {
   background: var(--mint-bg);
   padding: 40px 30px;
@@ -313,6 +321,75 @@ h1, h2, h3, h4 {
   width: 100%;
   border-radius: 30px;
   box-shadow: 0 30px 60px rgba(0,0,0,0.15);
+}
+
+.visual-image-wrapper {
+  position: relative;
+  display: inline-block;
+  max-width: 240px;
+}
+
+.visual-image-wrapper img {
+  width: 100% !important;
+}
+
+.outcome-badge {
+  position: absolute;
+  background: var(--white);
+  padding: 10px 14px;
+  border-radius: 16px;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.12);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid rgba(46, 139, 87, 0.08);
+  z-index: 10;
+  animation: float-badge 5s ease-in-out infinite;
+}
+
+.outcome-badge ion-icon {
+  font-size: 20px;
+  color: var(--primary-emerald);
+  background: rgba(46, 139, 87, 0.08);
+  padding: 6px;
+  border-radius: 10px;
+}
+
+.outcome-badge div {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.outcome-badge strong {
+  font-size: 12px;
+  color: var(--dark-text);
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.outcome-badge span {
+  font-size: 10px;
+  color: var(--light-text);
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+/* Specific Positions */
+.dashboard-badge {
+  bottom: 40px;
+  right: -30px;
+}
+
+.list-badge {
+  top: 40px;
+  left: -30px;
+}
+
+@keyframes float-badge {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+  100% { transform: translateY(0px); }
 }
 
 .visual-text {
@@ -387,7 +464,7 @@ footer {
   }
   .hero-text { margin-bottom: 60px; }
   .hero-buttons { justify-content: center; }
-  .grid-3 { grid-template-columns: 1fr; }
+  .grid-3, .grid-2 { grid-template-columns: 1fr; }
   .visual-section { flex-direction: column-reverse; text-align: center; }
   .hero h1 { font-size: 48px; }
   .store-badges { flex-direction: column; align-items: center; }
@@ -1391,6 +1468,7 @@ footer {
   
   /* Grid structures */
   .grid-3,
+  .grid-2,
   .testimonials-grid,
   .pricing-grid {
     grid-template-columns: 1fr !important;
@@ -1414,6 +1492,14 @@ footer {
   }
   .visual-image img {
     max-width: 180px !important;
+  }
+  .dashboard-badge {
+    right: -10px !important;
+    bottom: 20px !important;
+  }
+  .list-badge {
+    left: -10px !important;
+    top: 20px !important;
   }
 
   /* Video player */

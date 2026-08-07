@@ -23,7 +23,7 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Family Meal Plan | AI-Powered Meal Planning</title>
+    <title>Family Meal Plan — Dinner Decided For You | Meal Planning App</title>
     <meta name="description" content="The app that decides family dinner for you each morning — from meals your family already loves. Try it free for 14 days.">
     
     <!-- Open Graph / Facebook / iMessage -->
@@ -162,9 +162,9 @@
         <div class="blob-2"></div>
         
         <div class="hero-text">
-            <span class="tagline">The Daily Dinner Question: Answered.</span>
+            <span class="tagline">The family meal-planning app that answers the daily dinner question.</span>
             <h1>Never stress over <span>"What's for Dinner?"</span> again.</h1>
-            <p>Every morning, if you haven't already picked a dinner, Family Meal Plan decides one <em>for</em> you — chosen from the meals your family already loves. No more staring into the fridge, no more scrambling at 5:47 PM. It's dinner, decided before you've even had coffee.</p>
+            <p>Every morning, if you haven't already picked a dinner, Family Meal Plan decides one <em>for</em> you — chosen from the meals your family already loves. No more decision fatigue, no more staring into the fridge at 5:47 PM. We lift the nightly mental load off your plate, so dinner is decided before you've even had coffee.</p>
             
             <div class="hero-buttons">
                 <a href="#download" class="btn-primary" id="trigger-hero-download">Get the App — Free 14-Day Trial</a>
@@ -200,23 +200,37 @@
         </div>
     </section>
 
-    <!-- Core Features Grid -->
-    <section id="features" class="features">
-        <div class="features-intro">
-            <h2>Everything you need, zero friction.</h2>
+    <!-- Promoted Differentiator: Dinner Decided For You -->
+    <section id="scheduling" class="visual-section" style="background: #fff; flex-direction: row-reverse;">
+        <div class="visual-image" style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; align-items: center;">
+            <div class="visual-image-wrapper">
+                <img src="assets/app_screenshot_dashboard.png" alt="Interactive weekly meal calendar scheduling daily family dinners with simple one-click swap and shuffle buttons." style="border: 8px solid #f4f8f5; border-radius: 40px; box-shadow: 0 25px 50px rgba(0,0,0,0.15);">
+                <div class="outcome-badge dashboard-badge">
+                    <ion-icon name="trending-down-outline"></ion-icon>
+                    <div>
+                        <strong>3 takeout nights skipped</strong>
+                        <span>$84 saved this week</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="visual-text">
+            <span class="spotlight-badge" style="background: rgba(46,139,87,0.1); color: var(--primary-emerald); padding: 6px 12px; border-radius: 12px; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; display: inline-block; margin-bottom: 16px;">THE MAIN DIFFERENTIATOR</span>
+            <h2>Dinner, decided before you're even awake.</h2>
+            <p>This is the magic: if you haven't planned tonight's meal, Family Meal Plan picks one for you every morning — drawn first from your past dinners, then the meals your family rates highest. It learns what you love, so the suggestion actually fits your table.</p>
+            <p>Want to plan ahead instead? Swipe across your dynamic 7-day schedule to map out the whole week, tap into any recipe, and keep the family aligned — all without the stress.</p>
+        </div>
+    </section>
+
+    <!-- Core Features Grid (Supporting Tiers) -->
+    <section id="features" class="features" style="background: var(--mint-bg); padding: 80px 5%;">
+        <div class="features-intro" style="margin-bottom: 40px;">
+            <h2>Everything else you need, zero friction.</h2>
             <p>Designed for busy parents who just want an answer to the eternal question: "What's for dinner?"</p>
         </div>
 
-        <div class="grid-3">
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <ion-icon name="sunny"></ion-icon>
-                </div>
-                <h3>Dinner, Decided For You</h3>
-                <p>Haven't planned tonight? Each morning the app automatically suggests a dinner — pulled from your family's favorites and past meals it knows you love. Not random. Personal. You wake up, and dinner's already handled.</p>
-            </div>
-
-            <div class="feature-card">
+        <div class="grid-2">
+            <div class="feature-card" style="background: #fff;">
                 <div class="feature-icon">
                     <ion-icon name="sparkles"></ion-icon>
                 </div>
@@ -224,7 +238,7 @@
                 <p>Escape the piles of paper recipes in your cabinet. Snap a photo of a recipe card or paste a web link, and our AI turns it into a clean recipe in your digital cookbook — in seconds.</p>
             </div>
             
-            <div id="checkout-card" class="feature-card">
+            <div id="checkout-card" class="feature-card" style="background: #fff;">
                 <div class="feature-icon">
                     <ion-icon name="cart"></ion-icon>
                 </div>
@@ -234,20 +248,8 @@
         </div>
     </section>
 
-    <!-- Visual Section 1: Weekly Schedule -->
-    <section id="scheduling" class="visual-section" style="background: #fff; flex-direction: row-reverse;">
-        <div class="visual-image" style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; align-items: center;">
-            <img src="assets/app_screenshot_dashboard.png" alt="Interactive weekly meal calendar scheduling daily family dinners with simple one-click swap and shuffle buttons." style="max-width: 240px; border: 8px solid #f4f8f5; border-radius: 40px; box-shadow: 0 25px 50px rgba(0,0,0,0.15);">
-        </div>
-        <div class="visual-text">
-            <h2>Dinner, decided before you're even awake.</h2>
-            <p>This is the magic: if you haven't planned tonight's meal, Family Meal Plan picks one for you every morning — drawn first from your past dinners, then the meals your family rates highest. It learns what you love, so the suggestion actually fits your table.</p>
-            <p>Want to plan ahead instead? Swipe across your dynamic 7-day schedule to map out the whole week, tap into any recipe, and keep the family aligned — all without the stress.</p>
-        </div>
-    </section>
-
     <!-- Visual Section 2: Magic Recipe Importer -->
-    <section id="magic" class="visual-section">
+    <section id="magic" class="visual-section" style="background: #fff;">
         <div class="visual-image before-after-container">
             <!-- Before: Handwritten Card Image -->
             <div class="recipe-card-before-wrapper">
@@ -275,7 +277,7 @@
     </section>
 
     <!-- Visual Section 3: Diet Preferences & Exclusions -->
-    <section id="preferences" class="visual-section" style="background: #fff; flex-direction: row-reverse;">
+    <section id="preferences" class="visual-section" style="background: var(--mint-bg); flex-direction: row-reverse;">
         <div class="visual-image" style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; align-items: center;">
             <img src="assets/app_screenshot_diets.png" alt="Custom diet filter screen displaying selections for Gluten-Free, Keto, Vegetarian, Vegan, Dairy-Free, Low Carb, and Kid-Friendly options." style="max-width: 240px; border: 8px solid #fff; border-radius: 40px; box-shadow: 0 25px 50px rgba(0,0,0,0.15);">
             <img src="assets/app_screenshot_allergies.png" alt="Food exclusions panel showing exclusions for peanuts, tree nuts, shellfish, and custom dislikes to automatically filter recipe results." style="max-width: 240px; border: 8px solid #fff; border-radius: 40px; box-shadow: 0 25px 50px rgba(0,0,0,0.15);">
@@ -288,9 +290,18 @@
     </section>
 
     <!-- Visual Section 4: Smart Shopping List -->
-    <section id="checkout" class="visual-section">
+    <section id="checkout" class="visual-section" style="background: #fff;">
         <div class="visual-image" style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; align-items: center;">
-            <img src="assets/app_screenshot_shopping_list.png" alt="Consolidated smart shopping list automatically organized by store sections like Produce, Meat & Seafood, Dairy, and Pantry." style="max-width: 240px; border: 8px solid #f4f8f5; border-radius: 40px; box-shadow: 0 25px 50px rgba(0,0,0,0.15);">
+            <div class="visual-image-wrapper">
+                <img src="assets/app_screenshot_shopping_list.png" alt="Consolidated smart shopping list automatically organized by store sections like Produce, Meat & Seafood, Dairy, and Pantry." style="border: 8px solid #f4f8f5; border-radius: 40px; box-shadow: 0 25px 50px rgba(0,0,0,0.15);">
+                <div class="outcome-badge list-badge">
+                    <ion-icon name="wallet-outline"></ion-icon>
+                    <div>
+                        <strong>Consolidated Grocery Run</strong>
+                        <span>$35 saved from food waste</span>
+                    </div>
+                </div>
+            </div>
             <img src="assets/app_screenshot_shop_online.png" alt="Instant online grocery shopping integration with one-click checkout links for Walmart, Kroger, Instacart, and target local stores." style="max-width: 240px; border: 8px solid #f4f8f5; border-radius: 40px; box-shadow: 0 25px 50px rgba(0,0,0,0.15);">
         </div>
         <div class="visual-text">
@@ -305,7 +316,7 @@
         <h2>See Family Meal Plan in Action</h2>
         <p>Watch how we make weekly meal planning, diet customization, and grocery shopping completely effortless.</p>
         <div class="video-container">
-            <video id="walkthrough-video" src="assets/walkthrough.mp4" style="width: 100%; height: 100%; object-fit: cover; display: block;"></video>
+            <video id="walkthrough-video" data-src="assets/walkthrough.mp4" poster="assets/video_poster.png" preload="none" style="width: 100%; height: 100%; object-fit: cover; display: block;"></video>
             <div class="video-placeholder-overlay" id="video-overlay">
                 <div class="play-button">
                     <ion-icon name="play-outline" style="margin-left: 6px;"></ion-icon>
@@ -486,7 +497,12 @@
             <div class="pricing-card">
                 <div class="pricing-lbl">Supportive</div>
                 <div class="pricing-price">$5.99<span>/mo</span></div>
-                <p class="pricing-text">Every penny helps us keep improving the app.</p>
+                <p class="pricing-text" style="font-style: italic; opacity: 0.8; margin-bottom: 16px;">"Every penny helps us keep improving."</p>
+                <div style="border-top: 1px dashed rgba(107, 139, 114, 0.2); width: 100%; margin-top: auto; padding-top: 16px;">
+                    <p style="font-size: 13px; color: var(--light-text); line-height: 1.5; text-align: left;">
+                        <strong>Best for:</strong> Budget-conscious parents. Covers cloud hosting costs to keep the lights on.
+                    </p>
+                </div>
             </div>
             
             <!-- Tier 2 (Highlighted) -->
@@ -494,14 +510,24 @@
                 <div class="pricing-badge">Most Popular</div>
                 <div class="pricing-lbl">Time Saver</div>
                 <div class="pricing-price">$8.99<span>/mo</span></div>
-                <p class="pricing-text">This app saves my family real time and sanity.</p>
+                <p class="pricing-text" style="font-style: italic; opacity: 0.8; margin-bottom: 16px;">"Saves my family real time and sanity."</p>
+                <div style="border-top: 1px dashed rgba(107, 139, 114, 0.3); width: 100%; margin-top: auto; padding-top: 16px;">
+                    <p style="font-size: 13px; color: var(--light-text); line-height: 1.5; text-align: left;">
+                        <strong>Best for:</strong> Cooking 3–5 nights a week. Offsets active recipe imports & list synchronizations.
+                    </p>
+                </div>
             </div>
             
             <!-- Tier 3 -->
             <div class="pricing-card">
                 <div class="pricing-lbl">Dinner Changer</div>
                 <div class="pricing-price">$12.99<span>/mo</span></div>
-                <p class="pricing-text">This completely changed dinner at our house.</p>
+                <p class="pricing-text" style="font-style: italic; opacity: 0.8; margin-bottom: 16px;">"Completely changed dinner at our house."</p>
+                <div style="border-top: 1px dashed rgba(107, 139, 114, 0.2); width: 100%; margin-top: auto; padding-top: 16px;">
+                    <p style="font-size: 13px; color: var(--light-text); line-height: 1.5; text-align: left;">
+                        <strong>Best for:</strong> Daily home cooks. Funds rapid development of custom diet profiles & advanced filters.
+                    </p>
+                </div>
             </div>
             
             <!-- Tier 4 -->
@@ -510,11 +536,23 @@
                 <div class="pricing-lbl">All In</div>
                 <div class="pricing-price">$5.41<span>/mo</span></div>
                 <p class="pricing-billing-detail">Billed yearly at $64.99/yr</p>
-                <p class="pricing-text">I'm all in for the long haul. Best value for a full year.</p>
+                <p class="pricing-text" style="font-style: italic; opacity: 0.8; margin-bottom: 16px;">"I'm all in for the long haul."</p>
+                <div style="border-top: 1px dashed rgba(107, 139, 114, 0.2); width: 100%; margin-top: auto; padding-top: 16px;">
+                    <p style="font-size: 13px; color: var(--light-text); line-height: 1.5; text-align: left;">
+                        <strong>Best for:</strong> Long-term planning. Commit to a year of stress-free dinner decisions at our lowest rate.
+                    </p>
+                </div>
             </div>
         </div>
         
-        <p class="pricing-note">We believe you'll know what it's worth after 14 days. We trust you to decide.</p>
+        <p class="pricing-note">
+            We believe you'll know what it's worth after 14 days. We trust you to decide.
+            <br>
+            <span style="font-size: 13px; opacity: 0.85; margin-top: 8px; display: inline-block;">
+                We never sell your data — your recipes and family preferences stay yours. 
+                <a href="privacy.html" style="color: var(--primary-gold); text-decoration: underline;">Here's exactly what we store</a>.
+            </span>
+        </p>
     </section>
 
     <!-- Founder Section -->
@@ -561,6 +599,10 @@
                     <img src="assets/google-play-badge.svg" alt="Get it on Google Play">
                 </a>
             </div>
+            <p class="privacy-promise" style="font-size: 14px; margin-top: 24px; color: var(--light-text); opacity: 0.9; max-width: 500px; margin-left: auto; margin-right: auto; line-height: 1.5;">
+                We never sell your data — your recipes and family preferences stay yours. 
+                <a href="privacy.html" style="color: var(--primary-gold); text-decoration: underline;">Here's exactly what we store</a>.
+            </p>
         </div>
         <div class="footer-bottom" style="display:flex; flex-direction:column; align-items:center; gap:12px;">
             <div>&copy; 2026 DEER Studios LLC. No recipes harmed in the making of this software.</div>
@@ -574,6 +616,8 @@
                 <span style="color: #6b8b72;">Comparisons:</span>
                 <a href="vs/supperly.html" style="color: #889eb2; text-decoration: none;">vs. Supperly</a>
                 <a href="vs/thisweekeats.html" style="color: #889eb2; text-decoration: none;">vs. ThisWeekEats</a>
+                <a href="vs/numyum.html" style="color: #889eb2; text-decoration: none;">vs. NumYum</a>
+                <a href="vs/mealime.html" style="color: #889eb2; text-decoration: none;">vs. Mealime</a>
                 <a href="best-meal-planner-for-picky-eaters.html" style="color: #889eb2; text-decoration: none;">Best for Picky Eaters</a>
             </div>
         </div>
@@ -626,6 +670,10 @@
             if (video && videoOverlay && videoContainer) {
                 videoContainer.addEventListener('click', function playVideoHandler() {
                     if (video.paused) {
+                        if (!video.src) {
+                            video.src = video.getAttribute('data-src');
+                            video.load();
+                        }
                         video.play();
                         video.setAttribute('controls', 'true');
                         videoOverlay.style.display = 'none';
