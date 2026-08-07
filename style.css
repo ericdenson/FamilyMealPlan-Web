@@ -9,10 +9,19 @@
   --glass-border: rgba(255, 255, 255, 0.4);
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+/* Scroll Offset for Fixed Navigation Header */
+section[id], footer[id] {
+  scroll-margin-top: 100px;
 }
 
 body {
