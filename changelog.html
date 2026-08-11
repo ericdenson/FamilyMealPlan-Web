@@ -42,10 +42,11 @@
         
         <!-- Entry 1: August 2026 -->
         <div class="changelog-entry" style="margin-bottom: 80px; border-left: 4px solid var(--primary-emerald); padding-left: 30px; position: relative;">
-            <div class="changelog-date" style="font-family: 'Outfit', sans-serif; font-weight: 700; color: var(--primary-emerald); font-size: 18px; margin-bottom: 8px;">August 6, 2026</div>
-            <h2 style="font-family: 'Outfit', sans-serif; font-size: 28px; color: var(--dark-text); margin-bottom: 15px;">Smart Grocery Aisle Overrides & Structured Data</h2>
+            <div class="changelog-date" style="font-family: 'Outfit', sans-serif; font-weight: 700; color: var(--primary-emerald); font-size: 18px; margin-bottom: 8px;">August 11, 2026</div>
+            <h2 style="font-family: 'Outfit', sans-serif; font-size: 28px; color: var(--dark-text); margin-bottom: 15px;">Smart Grocery Aisle Overrides & Spice Extensions (v1.0.15)</h2>
             <p style="color: var(--light-text); font-size: 16px; line-height: 1.6; margin-bottom: 15px;">We improved how the smart shopping list categorizes items to keep your store runs friction-free, and optimized how crawlers read the website:</p>
             <ul style="color: var(--light-text); font-size: 16px; line-height: 1.7; padding-left: 20px;">
+                <li><strong>Spices & Seasonings Fixed:</strong> Corrected an issue where ground spices (like ground cumin, paprika, turmeric, cloves, coriander, and allspice) fell through to the "Other" section. They are now correctly routed to the Pantry aisle.</li>
                 <li><strong>Aisle Collisions Fixed:</strong> Added logic to keep baking mixes from landing in Dairy & Eggs, and corrected a word-match issue where rolled oats accidentally categorized into Bakery instead of Pantry.</li>
                 <li><strong>Rich Schema Data:</strong> Added complete structured JSON-LD FAQ, Organization, and Product schemas so AI search agents correctly display our pricing and app specifications.</li>
                 <li><strong>Descriptive Image Alt Text:</strong> Rewrote all mockup image descriptions to improve accessibility and image-search performance.</li>
