@@ -213,7 +213,50 @@
                 <a href="https://www.linkedin.com/in/eric-denson-3b324473/" style="color: #889eb2; text-decoration: none;" target="_blank" rel="noopener noreferrer">About the Founder</a>
             </div>
         </div>
-    </footer>
+    <!-- Desktop Download Modal -->
+    <div id="desktop-download-modal" class="modal-overlay">
+        <div class="modal-content" style="max-width: 440px; padding: 36px 28px;">
+            <button class="modal-close" onclick="document.getElementById('desktop-download-modal').classList.remove('active')">&times;</button>
+            <div style="font-size: 40px; margin-bottom: 12px;">📱</div>
+            <h2 style="font-family: 'Outfit', sans-serif; font-size: 26px; color: var(--dark-text); margin-bottom: 8px;">Get Family Meal Plan</h2>
+            <p style="color: var(--light-text); font-size: 15px; margin-bottom: 24px; line-height: 1.5;">Choose your store below to download the app for your phone or tablet:</p>
+            <div style="display: flex; flex-direction: column; gap: 14px; align-items: center; width: 100%;">
+                <a href="https://apps.apple.com/us/app/family-meal-plan-app/id6770301743" target="_blank" rel="noopener noreferrer" style="width: 100%; display: flex; align-items: center; justify-content: center; background: #000; color: #fff; padding: 14px; border-radius: 14px; text-decoration: none; font-weight: 700; gap: 10px; font-size: 16px;">
+                    <ion-icon name="logo-apple" style="font-size: 22px;"></ion-icon>
+                    Download on App Store
+                </a>
+                <a href="https://play.google.com/store/apps/details?id=com.ericdenson.familymealplanmobile" target="_blank" rel="noopener noreferrer" style="width: 100%; display: flex; align-items: center; justify-content: center; background: var(--primary-emerald); color: #fff; padding: 14px; border-radius: 14px; text-decoration: none; font-weight: 700; gap: 10px; font-size: 16px;">
+                    <ion-icon name="logo-google-playstore" style="font-size: 22px;"></ion-icon>
+                    Get it on Google Play
+                </a>
+            </div>
+        </div>
+    </div>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const handleSmartRedirect = (e) => {
+                if (e) e.preventDefault();
+                const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+                if (/iPhone|iPad|iPod/i.test(userAgent)) {
+                    window.location.href = 'https://apps.apple.com/us/app/family-meal-plan-app/id6770301743';
+                } else if (/Android/i.test(userAgent)) {
+                    window.location.href = 'https://play.google.com/store/apps/details?id=com.ericdenson.familymealplanmobile';
+                } else {
+                    const modal = document.getElementById('desktop-download-modal');
+                    if (modal) {
+                        modal.classList.add('active');
+                    } else {
+                        window.location.href = 'https://apps.apple.com/us/app/family-meal-plan-app/id6770301743';
+                    }
+                }
+            };
+
+            const downloadTriggers = document.querySelectorAll('.cta-button, .btn-primary');
+            downloadTriggers.forEach(btn => {
+                btn.addEventListener('click', handleSmartRedirect);
+            });
+        });
+    </script>
 </body>
 </html>
