@@ -1184,6 +1184,13 @@ footer {
   font-weight: 700;
   color: var(--dark-text);
   transition: color 0.2s ease;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+.faq-question * {
+  pointer-events: none;
 }
 
 .faq-question:hover {
@@ -1204,12 +1211,12 @@ footer {
 .faq-answer {
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.3s cubic-bezier(0.16, 1, 0.3, 1), padding 0.3s ease;
+  transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1), padding 0.3s ease;
   padding: 0 30px;
 }
 
 .faq-item.active .faq-answer {
-  max-height: 300px; /* Safe upper bound for text content height */
+  max-height: 800px; /* Increased from 300px to prevent text clipping on mobile viewports */
   padding-bottom: 24px;
 }
 

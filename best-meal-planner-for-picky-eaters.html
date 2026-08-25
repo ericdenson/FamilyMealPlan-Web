@@ -125,6 +125,46 @@
         </div>
     </section>
 
+    <!-- FAQ Section -->
+    <section class="faq-section" id="faq" style="background: var(--mint-bg); padding: 80px 5%;">
+        <div style="max-width: 1000px; margin: 0 auto;">
+            <h2 style="font-family: 'Outfit', sans-serif; font-size: 36px; text-align: center; color: var(--dark-text); margin-bottom: 12px;">Frequently Asked Questions</h2>
+            <p class="faq-intro" style="text-align: center; color: var(--light-text); font-size: 18px; margin-bottom: 40px;">Got questions? We've got answers. See why real busy families love using our app.</p>
+            
+            <div class="faq-container">
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Will it really fit my picky eaters or family allergies?</span>
+                        <ion-icon name="chevron-down-outline" class="faq-chevron"></ion-icon>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Yes, absolutely. Most meal planning apps fail because they assume you cook for an "imaginary family" that eats whatever gourmet recipe is recommended. Family Meal Plan is different: it picks suggestions first from the dinners your family already cooks, knows, and loves. Plus, you can select from 16 built-in diet profiles (like Gluten-Free, Keto, or Dairy-Free) and list specific dislikes or severe allergies. The app automatically filters out those ingredients so they never show up in your plan or shopping list.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>How much setup is required before the app is useful?</span>
+                        <ion-icon name="chevron-down-outline" class="faq-chevron"></ion-icon>
+                    </button>
+                    <div class="faq-answer">
+                        <p>None at all. The app comes pre-loaded with over 470 built-in recipes you can plan with immediately, and our library grows daily as users share their own favorites. While you can easily import your own by snapping a photo of a recipe card or pasting a food blog link, you never have to enter a single recipe to get full value on day one.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>How do I cancel my subscription? Is it difficult?</span>
+                        <ion-icon name="chevron-down-outline" class="faq-chevron"></ion-icon>
+                    </button>
+                    <div class="faq-answer">
+                        <p>We hate hidden cancel buttons as much as you do. You can cancel your subscription with a single tap directly on your profile screen. There are no customer support loops, no trick questions, and no phone calls required. Tap, confirm, and you're done.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Deep Green CTA Footer -->
     <footer id="download">
         <div class="footer-content" style="max-width: 1200px; margin: 0 auto; padding: 0 20px; text-align: center; color: var(--white);">
@@ -150,5 +190,25 @@
         </div>
     </footer>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const faqQuestions = document.querySelectorAll('.faq-question');
+            faqQuestions.forEach(question => {
+                const toggleHandler = (e) => {
+                    e.preventDefault();
+                    const item = question.parentElement;
+                    const isActive = item.classList.contains('active');
+                    
+                    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+                    
+                    if (!isActive) {
+                        item.classList.add('active');
+                    }
+                };
+
+                question.addEventListener('click', toggleHandler);
+            });
+        });
+    </script>
 </body>
 </html>
