@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- HeyCatch Analytics -->
+    <script type="module">
+      import { analytics } from 'https://esm.sh/@heycatch/sdk@0.7.0';
+      analytics.init({
+        projectKey: 'hck_pk_6nHqAJ0HZk_RtMd2OrOtRC4Sv8XKET5h',
+        install: {
+          framework: 'web',
+          agent: 'antigravity'
+        }
+      });
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sand Mountain Reporter Special Offer | Family Meal Plan</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@700;900&display=swap" rel="stylesheet">
+    <!-- Ionicons -->
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <!-- Core Style Sheet -->
+    <link rel="stylesheet" href="../style.css?v=1.1.4">
+
+    <style>
+        .fun-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 20px;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #f4f8f5 0%, #eef6f0 100%);
+        }
+
+        /* Ambient glowing background blobs */
+        .glow-blob {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.15;
+            z-index: 1;
+        }
+        .blob-green {
+            background-color: #2e8b57;
+            top: -100px;
+            left: -100px;
+        }
+        .blob-gold {
+            background-color: #f5cb5c;
+            bottom: -150px;
+            right: -100px;
+        }
+
+        .fun-card {
+            background: var(--white);
+            border-radius: 32px;
+            padding: 50px 40px;
+            width: 100%;
+            max-width: 550px;
+            box-shadow: 0 25px 55px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(46, 139, 87, 0.15);
+            text-align: center;
+            z-index: 2;
+            position: relative;
+        }
+
+        .radio-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #eefbee;
+            color: var(--primary-emerald);
+            padding: 8px 16px;
+            border-radius: 100px;
+            font-size: 13px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 24px;
+            border: 1px solid rgba(46, 139, 87, 0.15);
+        }
+
+        .radio-badge ion-icon {
+            font-size: 16px;
+            animation: pulse-icon 1.5s infinite alternate;
+        }
+
+        .fun-card h1 {
+            font-size: 38px;
+            font-weight: 900;
+            color: var(--dark-text);
+            margin-bottom: 12px;
+            line-height: 1.15;
+        }
+
+        .fun-card h1 span {
+            color: var(--primary-emerald);
+        }
+
+        .intro {
+            font-size: 16px;
+            color: var(--light-text);
+            line-height: 1.6;
+            margin-bottom: 32px;
+        }
+
+        .offer-box {
+            background-color: var(--mint-bg);
+            border: 2px dashed rgba(46, 139, 87, 0.3);
+            border-radius: 24px;
+            padding: 30px 24px;
+            margin-bottom: 32px;
+            position: relative;
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.01);
+        }
+
+        .trial-badge {
+            background: var(--primary-emerald);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: inline-block;
+            margin-bottom: 12px;
+        }
+
+        .code-label {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--light-text);
+            margin-bottom: 4px;
+        }
+
+        .code-value {
+            font-family: 'Outfit', sans-serif;
+            font-size: 36px;
+            font-weight: 900;
+            color: var(--dark-text);
+            letter-spacing: 1.5px;
+            margin-bottom: 16px;
+        }
+
+        .copy-button {
+            background-color: var(--white);
+            border: 2px solid var(--primary-emerald);
+            color: var(--primary-emerald);
+            padding: 12px 28px;
+            border-radius: 30px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(46, 139, 87, 0.1);
+        }
+
+        .copy-button:hover {
+            background-color: var(--primary-emerald);
+            color: var(--white);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(46, 139, 87, 0.2);
+        }
+
+        .steps-container {
+            text-align: left;
+            margin-bottom: 32px;
+            background: #fafcfb;
+            padding: 20px;
+            border-radius: 16px;
+            border: 1px solid #f0f4f1;
+        }
+
+        .step-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        .step-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .step-num {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--primary-emerald);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 800;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .step-text {
+            font-size: 14px;
+            color: var(--light-text);
+            line-height: 1.45;
+        }
+
+        .step-text strong {
+            color: var(--dark-text);
+        }
+
+        .join-badges {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .join-badges img {
+            height: 50px;
+            width: auto;
+            transition: transform 0.2s ease;
+        }
+
+        .join-badges img:hover {
+            transform: scale(1.05);
+        }
+
+        @keyframes pulse-icon {
+            from { opacity: 0.6; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1.1); }
+        }
+
+        .logo-header-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .partner-title-badge {
+            background: #111827;
+            color: #ffffff;
+            padding: 10px 18px;
+            border-radius: 14px;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 900;
+            font-size: 15px;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .partner-title-badge ion-icon {
+            color: #f5cb5c;
+            font-size: 20px;
+        }
+
+        .app-logo-text-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            height: 72px;
+        }
+
+        .partner-logo.rounded {
+            height: 64px;
+            width: 64px;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
+
+        .vertical-text-stack {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+            text-align: left;
+        }
+
+        .vertical-text-stack span {
+            font-family: 'Outfit', sans-serif;
+            font-size: 13px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            line-height: 1;
+            color: var(--primary-emerald);
+        }
+
+        .connect-icon {
+            font-size: 24px;
+            color: var(--light-text);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.6;
+        }
+
+        @media (max-width: 480px) {
+            .fun-card {
+                padding: 40px 20px;
+            }
+            .fun-card h1 {
+                font-size: 32px;
+            }
+            .code-value {
+                font-size: 32px;
+            }
+            .logo-header-row {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .connect-icon {
+                transform: rotate(90deg);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="fun-container">
+        <!-- Ambient Glowing Background -->
+        <div class="glow-blob blob-green"></div>
+        <div class="glow-blob blob-gold"></div>
+
+        <div class="fun-card">
+            <div class="logo-header-row">
+                <div class="partner-title-badge">
+                    <ion-icon name="newspaper-outline"></ion-icon>
+                    Sand Mountain Reporter
+                </div>
+                <div class="connect-icon"><ion-icon name="add-outline"></ion-icon></div>
+                <div class="app-logo-text-wrapper">
+                    <img src="../assets/512icon.png" alt="Family Meal Plan" class="partner-logo rounded">
+                    <div class="vertical-text-stack">
+                        <span>Family</span>
+                        <span>Meal</span>
+                        <span>Plan</span>
+                        <span>App</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="radio-badge">
+                <ion-icon name="newspaper-outline"></ion-icon>
+                Sand Mountain Reporter Special Invite
+            </div>
+            
+            <h1>Claim Your <span>30-Day</span> Free Trial</h1>
+            <p class="intro">
+                Welcome Sand Mountain Reporter readers and high school football fans! Claim your exclusive extended trial of <strong>Family Meal Plan</strong> to automate dinner planning, save $100+/mo on groceries, and get home in time for kickoff.
+            </p>
+
+            <div class="offer-box">
+                <div class="trial-badge">🎁 30-Day VIP Pass</div>
+                <div class="code-label">Promo Code</div>
+                <div class="code-value" id="promo-code-val">REPORTER</div>
+                <button class="copy-button" id="copy-btn">
+                    <ion-icon name="copy-outline"></ion-icon>
+                    <span>Copy Code</span>
+                </button>
+            </div>
+
+            <div class="steps-container">
+                <div class="step-row">
+                    <div class="step-num">1</div>
+                    <div class="step-text">Click the <strong>Copy Code</strong> button above.</div>
+                </div>
+                <div class="step-row">
+                    <div class="step-num">2</div>
+                    <div class="step-text">Download and install the app below.</div>
+                </div>
+                <div class="step-row">
+                    <div class="step-num">3</div>
+                    <div class="step-text">Paste <strong>REPORTER</strong> during signup or in your rewards profile to unlock your extended 30-day access!</div>
+                </div>
+            </div>
+
+            <div class="join-badges">
+                <a id="app-store-link" target="_blank" rel="noopener noreferrer">
+                    <img src="../assets/app-store-badge.svg" alt="Download on the App Store">
+                </a>
+                <a id="google-play-link" target="_blank" rel="noopener noreferrer">
+                    <img src="../assets/google-play-badge.svg" alt="Get it on Google Play">
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Referral Code Capture Logic -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const promoCode = 'REPORTER';
+
+            // Copy Code functionality
+            const copyBtn = document.getElementById('copy-btn');
+            if (copyBtn) {
+                copyBtn.addEventListener('click', () => {
+                    navigator.clipboard.writeText(promoCode).then(() => {
+                        const btnText = copyBtn.querySelector('span');
+                        btnText.textContent = 'Copied!';
+                        copyBtn.style.backgroundColor = 'var(--primary-emerald)';
+                        copyBtn.style.color = 'var(--white)';
+                        
+                        setTimeout(() => {
+                            btnText.textContent = 'Copy Code';
+                            copyBtn.style.backgroundColor = '';
+                            copyBtn.style.color = '';
+                        }, 2000);
+                    }).catch(err => {
+                        console.error('Failed to copy text: ', err);
+                    });
+                });
+            }
+
+            // Platform redirection configurations
+            const iosLink = 'https://apps.apple.com/us/app/family-meal-plan-app/id6770301743';
+            const androidLink = 'https://play.google.com/store/apps/details?id=com.ericdenson.familymealplanmobile';
+
+            const appStoreBtn = document.getElementById('app-store-link');
+            const playStoreBtn = document.getElementById('google-play-link');
+
+            if (appStoreBtn) appStoreBtn.setAttribute('href', iosLink);
+            if (playStoreBtn) playStoreBtn.setAttribute('href', androidLink);
+        });
+    </script>
+</body>
+</html>
