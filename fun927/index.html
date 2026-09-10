@@ -4,6 +4,7 @@
     <!-- HeyCatch Analytics -->
     <script type="module">
       import { analytics } from 'https://esm.sh/@heycatch/sdk@0.7.0';
+      window.heycatchAnalytics = analytics;
       analytics.init({
         projectKey: 'hck_pk_6nHqAJ0HZk_RtMd2OrOtRC4Sv8XKET5h',
         install: {
@@ -11,6 +12,10 @@
           agent: 'antigravity'
         }
       });
+      try {
+        analytics.trackEvent('funnel_step', { step: 'fun927', campaign: 'FUN927' });
+        analytics.trackEvent('page_view', { path: '/fun927', campaign: 'FUN927' });
+      } catch (e) {}
     </script>
 
     <meta charset="UTF-8">
@@ -387,6 +392,12 @@
             const copyBtn = document.getElementById('copy-btn');
             if (copyBtn) {
                 copyBtn.addEventListener('click', () => {
+                    try {
+                        if (window.heycatchAnalytics && typeof window.heycatchAnalytics.trackEvent === 'function') {
+                            window.heycatchAnalytics.trackEvent('copy_code_click', { campaign: promoCode });
+                        }
+                    } catch (e) {}
+
                     navigator.clipboard.writeText(promoCode).then(() => {
                         const btnText = copyBtn.querySelector('span');
                         btnText.textContent = 'Copied!';
@@ -411,8 +422,28 @@
             const appStoreBtn = document.getElementById('app-store-link');
             const playStoreBtn = document.getElementById('google-play-link');
 
-            if (appStoreBtn) appStoreBtn.setAttribute('href', iosLink);
-            if (playStoreBtn) playStoreBtn.setAttribute('href', androidLink);
+            const handleCtaRedirect = (e, store, targetUrl, label) => {
+                if (e) e.preventDefault();
+                try {
+                    if (window.heycatchAnalytics && typeof window.heycatchAnalytics.trackEvent === 'function') {
+                        const payload = { campaign: promoCode, store: store, button: label, url: window.location.href };
+                        window.heycatchAnalytics.trackEvent('Click CTA', payload);
+                        window.heycatchAnalytics.trackEvent('cta_click', payload);
+                    }
+                } catch (err) {}
+                setTimeout(() => {
+                    window.open(targetUrl, '_blank');
+                }, 150);
+            };
+
+            if (appStoreBtn) {
+                appStoreBtn.setAttribute('href', iosLink);
+                appStoreBtn.addEventListener('click', (e) => handleCtaRedirect(e, 'ios', iosLink, 'App Store'));
+            }
+            if (playStoreBtn) {
+                playStoreBtn.setAttribute('href', androidLink);
+                playStoreBtn.addEventListener('click', (e) => handleCtaRedirect(e, 'android', androidLink, 'Google Play'));
+            }
         });
     </script>
 </body>
