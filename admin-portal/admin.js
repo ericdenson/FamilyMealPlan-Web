@@ -214,7 +214,8 @@ const adminApp = {
     },
 
     startBadgePolling() {
-        setInterval(async () => {
+        const poll = async () => {
+            if (document.hidden) return;
             try {
                 const { data: ticketData, error } = await db.from('support_tickets')
                     .select(`
@@ -255,7 +256,15 @@ const adminApp = {
             } catch (e) {
                 // Silent fail for background polling
             }
-        }, 10000);
+        };
+
+        // Poll every 30 seconds (only when tab is active)
+        setInterval(poll, 30000);
+
+        // Instantly poll when user switches back to the tab
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden) poll();
+        });
     },
 
     // --- GLOBAL AFFILIATE SETTINGS CONTROLLER ---
@@ -362,15 +371,13 @@ const adminApp = {
 
     async saveSubscriptionPricing() {
         try {
-            const m1 = parseFloat(document.getElementById('cfg-sub-month-1').value) || 5.99;
-            const m2 = parseFloat(document.getElementById('cfg-sub-month-2').value) || 8.99;
-            const m3 = parseFloat(document.getElementById('cfg-sub-month-3').value) || 11.99;
-            const yr = parseFloat(document.getElementById('cfg-sub-annual').value) || 79.99;
+            const m1 = parseFloat(document.getElementById('cfg-sub-month-1').value) || 4.99;
+            const yr = parseFloat(document.getElementById('cfg-sub-annual').value) || 54.99;
             const trial = parseInt(document.getElementById('cfg-sub-trial-days').value) || 14;
             const vipBonus = parseInt(document.getElementById('cfg-sub-vip-bonus-days').value) || 16;
 
             const payload = {
-                monthly_tiers: [m1, m2, m3],
+                monthly_tiers: [m1],
                 yearly_price: yr,
                 trial_duration_days: trial,
                 vip_trial_bonus_days: vipBonus
