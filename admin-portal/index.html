@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Family Meal Plan - Admin Secure Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="config.js"></script><script src="supabaseClient.js"></script>
+
+    <style>
+        :root {
+            --bg-color: #f4f6f8;
+            --surface: #ffffff;
+            --text-main: #333333;
+            --text-muted: #888888;
+            --border-light: #e1e4e8;
+            --accent-color: #9CB4A0;
+            --accent-blue: #4a90e2;
+            --danger-color: #e57373;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: var(--bg-color); 
+            color: var(--text-main); 
+            display: flex; 
+            height: 100vh; 
+            align-items: center;
+            justify-content: center;
+            background-image: radial-gradient(circle at top right, #e8ede9 0%, transparent 40%), radial-gradient(circle at bottom left, #eef3fe 0%, transparent 40%);
+        }
+
+        .login-card {
+            background: var(--surface);
+            padding: 48px;
+            border-radius: 16px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+            width: 100%;
+            max-width: 440px;
+            border: 1px solid var(--border-light);
+            text-align: center;
+        }
+
+        .brand-icon {
+            font-size: 2.8rem;
+            color: var(--accent-color);
+            margin-bottom: 16px;
+        }
+
+        h2 { margin-bottom: 8px; font-size: 1.6rem; font-weight: 700; color: #1e1e2d; }
+        p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 32px; line-height: 1.5; }
+
+        .form-group { text-align: left; margin-bottom: 20px; }
+        .form-group label { display: block; font-size: 0.85rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .form-group input { width: 100%; padding: 14px 16px; border: 1px solid var(--border-light); border-radius: 8px; font-family: inherit; font-size: 1rem; outline: none; transition: border-color 0.2s; background: #fafbfc; }
+        .form-group input:focus { border-color: var(--accent-blue); background: white; box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1); }
+
+        .btn { width: 100%; padding: 14px; border-radius: 8px; font-family: inherit; font-size: 1rem; font-weight: 600; cursor: pointer; border: none; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; gap: 8px; color: white; background: #1e1e2d; margin-top: 12px; }
+        .btn:hover { background: #000; box-shadow: 0 4px 12px rgba(0,0,0,0.15); transform: translateY(-1px); }
+        .btn:disabled { background: #d0d7de; cursor: not-allowed; transform: none; box-shadow: none; }
+
+        .error-msg { color: var(--danger-color); font-size: 0.85rem; margin-top: 16px; background: #fff5f5; padding: 12px; border-radius: 6px; border: 1px solid #ffcdd2; display: none; text-align: left; }
+    </style>
+    <style id="auth-cloak">body { display: none !important; }</style>
+</head>
+<body>
+
+    <div class="login-card">
+        <i class="fa-solid fa-utensils brand-icon"></i>
+        <h2>Admin Authentication</h2>
+        <p>Enter your employee credentials to access the Family Meal Plan management portal.</p>
+
+        <form id="admin-login-form">
+            <div class="form-group">
+                <label>Employee Email</label>
+                <input type="email" id="auth-email" required placeholder="eric@de-apps.com">
+            </div>
+            <div class="form-group">
+                <label style="display: flex; justify-content: space-between;">
+                    <span>Secure Password</span>
+                    <a href="#" id="forgot-password-link" style="color: var(--accent-blue); text-decoration: none; text-transform: none; font-weight: 500;">Forgot?</a>
+                </label>
+                <input type="password" id="auth-pass" required placeholder="••••••••">
+            </div>
+
+            <button type="submit" class="btn" id="auth-submit-btn">
+                <i class="fa-solid fa-shield-check"></i> Authenticate Session
+            </button>
+
+            <div id="auth-error" class="error-msg">
+                <i class="fa-solid fa-circle-exclamation"></i> <span id="auth-error-text">Invalid credentials.</span>
+            </div>
+            
+            <div style="margin-top: 32px; padding-top: 24px; border-top: 1px dashed var(--border-light); text-align: center;">
+                <p style="font-size: 0.8rem; margin-bottom: 12px; font-weight: 600;">First Time Employee Onboarding?</p>
+                <button type="button" id="dev-register-btn" class="btn" style="background: white; color: var(--accent-blue); border: 1px solid var(--accent-blue);">
+                    <i class="fa-solid fa-key"></i> Claim Invited Account
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Uncloak instantly because this is a public gateway
+        const authCloak = document.getElementById('auth-cloak');
+        if (authCloak) authCloak.remove();
+
+        const db = window.dbClient; // Available from supabaseClient.js
+
+        // Check if already logged in!
+        async function checkExistingSession() {
+            const { data: { session } } = await db.auth.getSession();
+            if (session) {
+                // Instantly bounce authenticated users straight into the portal
+                window.location.href = 'admin-dashboard.html';
+            }
+        }
+        checkExistingSession();
+
+        const form = document.getElementById('admin-login-form');
+        const btn = document.getElementById('auth-submit-btn');
+        const errorBox = document.getElementById('auth-error');
+        const errorText = document.getElementById('auth-error-text');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Verifying...';
+            errorBox.style.display = 'none';
+
+            const email = document.getElementById('auth-email').value.trim();
+            const password = document.getElementById('auth-pass').value;
+
+            try {
+                // 1. Ask Supabase to Authenticate
+                const { data, error } = await db.auth.signInWithPassword({
+                    email: email,
+                    password: password
+                });
+
+                if (error) throw error;
+
+                // 2. Validate against Employee Roster (Admin Check)
+                // If they are an ordinary App user, they will succeed in Step 1, but fail here!
+                const { data: adminRecord, error: adminErr } = await db.from('admin_users')
+                    .select('*')
+                    .eq('email', email)
+                    .single();
+
+                if (adminErr || !adminRecord) {
+                    await db.auth.signOut();
+                    throw new Error("UNAUTHORIZED ACCESS FLAG. This email is not a registered administrator.");
+                }
+
+                // 3. Success! Push to Dashboard
+                window.location.href = 'admin-dashboard.html';
+
+            } catch (err) {
+                errorText.innerText = err.message;
+                errorBox.style.display = 'block';
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fa-solid fa-shield-check"></i> Authenticate Session';
+            }
+        });
+
+        // ----------------------------------------------------
+        // EMPLOYEE ONBOARDING CLAIM (For Invited Accounts)
+        // ----------------------------------------------------
+        document.getElementById('dev-register-btn').addEventListener('click', async () => {
+            const devEmail = document.getElementById('auth-email').value.trim();
+            const devPass = document.getElementById('auth-pass').value;
+
+            if(!devEmail || !devPass) {
+                alert("Please type your exact invited email and define a new secure password, then click Claim.");
+                return;
+            }
+
+            try {
+                // 1. Prevent random public signups. Verify Super Admin has whitelisted them!
+                const { data: adminRecord, error: adminErr } = await db.from('admin_users')
+                    .select('*')
+                    .eq('email', devEmail)
+                    .single();
+
+                if(adminErr || !adminRecord) {
+                    alert('Invite Invalid: Your email ' + devEmail + ' has not been whitelisted by a system administrator.');
+                    return;
+                }
+                
+                // 2. You ARE whitelisted! Request Supabase natively build the Auth node
+                const { data, error } = await db.auth.signUp({
+                    email: devEmail,
+                    password: devPass
+                });
+
+                if(error) {
+                    alert("Account Binding Failed: " + error.message);
+                    return;
+                }
+
+                alert(`SUCCESS! Your account is created and bound to your pre-defined employee permissions. Pushing to dashboard...`);
+                window.location.href = 'admin-dashboard.html';
+                
+            } catch(e) {
+                console.error("Claim Workflow Failed:", e);
+                alert("Failed: " + e.message);
+            }
+        });
+        // ----------------------------------------------------
+        // FORGOT PASSWORD FLOW
+        // ----------------------------------------------------
+        document.getElementById('forgot-password-link').addEventListener('click', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('auth-email').value.trim();
+            if(!email) {
+                alert("Please type your email address in the field above before clicking 'Forgot?'.");
+                return;
+            }
+
+            // Dynamically construct the redirect URL to the new reset page
+            let currentUrl = window.location.href;
+            if (!currentUrl.endsWith('.html')) {
+                if (!currentUrl.endsWith('/')) currentUrl += '/';
+                currentUrl += 'index.html';
+            }
+            const resetUrl = currentUrl.replace('index.html', 'reset-password.html');
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sending Link...';
+            
+            try {
+                const { data, error } = await db.auth.resetPasswordForEmail(email, {
+                    redirectTo: resetUrl,
+                });
+                
+                if (error) throw error;
+                
+                alert(`A password reset link has been sent to ${email}. Check your inbox!`);
+            } catch (err) {
+                alert("Reset Failed: " + err.message);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fa-solid fa-shield-check"></i> Authenticate Session';
+            }
+        });
+    </script>
+</body>
+</html>
+
